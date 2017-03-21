@@ -3,6 +3,14 @@ __pycache__/
 *.py[cod]
 *$py.class
 
+# ===== Start custom ignores ===== #
+
+.idea/
+*_env/
+Frontend/node_modules/
+
+# ===== End custom ignores ===== #
+
 # C extensions
 *.so
 
@@ -87,3 +95,5 @@ ENV/
 
 # Rope project settings
 .ropeproject
+.idea/
+django_react_scaffold.sh
