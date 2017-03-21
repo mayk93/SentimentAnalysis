@@ -7,6 +7,7 @@ django-admin startproject Backend
 cd Backend/Backend
 
 touch views.py
+touch models.py
 
 cd $CURRED_DIR
 
