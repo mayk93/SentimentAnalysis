@@ -31,6 +31,8 @@ rm old_urls.py
 
 cd ../Backend
 
+mkdir static
+
 python manage.py migrate
 
 echo

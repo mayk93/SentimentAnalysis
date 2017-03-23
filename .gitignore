@@ -13,6 +13,8 @@ log
 password.txt
 email.txt
 migrations
+static/
+static_serve/
 
 # ===== End custom ignores ===== #
 

@@ -22769,7 +22769,7 @@
 	                _react2.default.createElement(
 	                    'p',
 	                    null,
-	                    'You sent ',
+	                    'You sent: ',
 	                    this.props.test_view_data
 	                )
 	            );
@@ -22819,11 +22819,11 @@
 	    console.log("Sending ", data, " to test view.");
 	    return function (dispatch) {
 	        var test_request = _superagent2.default.post('/test_view/');
-	        test_request.send(data);
+	        test_request.send({ "sent": data });
 	        test_request.end(function (error, response) {
 	            if (error == null) {
 	                console.log("Success, made a POST to the test_view: ", response);
-	                dispatch(test_view_post_liaison(response.body.data.received));
+	                dispatch(test_view_post_liaison(response.body.received));
 	            } else {
 	                console.log("Failed, did not make a POST to the test_view: ", error);
 	                return {

@@ -28,7 +28,7 @@ class TestViewApp extends Component {
                 <br/>
                 <button onClick={() => {this.props.test_view_post(this.state.value)}}>Send</button>
                 <br/>
-                <p>You sent {this.props.test_view_data}</p>
+                <p>You sent: {this.props.test_view_data}</p>
             </div>
         )
 

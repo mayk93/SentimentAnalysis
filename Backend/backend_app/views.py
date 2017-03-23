@@ -8,5 +8,6 @@ def test_view(request, format=None):
     if request.method == 'GET':
         return JsonResponse({"ok": True, "message": "GET to test_view"}, safe=False, status=status.HTTP_200_OK)
     elif request.method == 'POST':
-        return JsonResponse({"ok": True, "received": request.data}, safe=False, status=status.HTTP_200_OK)
+        print request.data
+        return JsonResponse({"ok": True, "received": request.data["sent"]}, safe=False, status=status.HTTP_200_OK)
 
