@@ -4,7 +4,7 @@ import getpass
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-SECRET_KEY = '^qxhueb3jzxp9z2@5i*)#j)^!7xm$s-as!&^f5i5jgtu$jyfdy'
+SECRET_KEY = 'sz4*7vx=v$mpu2_z48qy=^ev4=ln(c58a09d$^nkva7wza=z!p'
 
 DEBUG = getpass.getuser() == 'michael'
 
