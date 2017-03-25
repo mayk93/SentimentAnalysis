@@ -5,8 +5,8 @@ class SentimentClassifier(object):
     def __init__(self):
         self.test_attribute = "SentimentClassifier works."
 
-    def classify(self):
-        return "SentimentClassifier works."
+    def classify(self, classification_input):
+        return {"sentiment": "Unknown", "confidence": 0, "classification_words": classification_input.split(" ")}
 
 
 import unittest

@@ -22654,9 +22654,9 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _test_view_app = __webpack_require__(209);
+	var _test_classification_app = __webpack_require__(209);
 
-	var _test_view_app2 = _interopRequireDefault(_test_view_app);
+	var _test_classification_app2 = _interopRequireDefault(_test_classification_app);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -22665,6 +22665,9 @@
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	// import TestViewApp from '../containers/test_view_app';
+
 
 	var App = function (_Component) {
 	    _inherits(App, _Component);
@@ -22681,7 +22684,7 @@
 	            return _react2.default.createElement(
 	                'div',
 	                null,
-	                _react2.default.createElement(_test_view_app2.default, null)
+	                _react2.default.createElement(_test_classification_app2.default, null)
 	            );
 	        }
 	    }]);
@@ -22720,7 +22723,7 @@
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /**
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Created by michael on 23/03/2017.
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Created by michael on 25/03/2017.
 	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
 
 	/* React */
@@ -22732,13 +22735,13 @@
 	/* Actions */
 
 
-	var TestViewApp = function (_Component) {
-	    _inherits(TestViewApp, _Component);
+	var TestClassificationApp = function (_Component) {
+	    _inherits(TestClassificationApp, _Component);
 
-	    function TestViewApp(props) {
-	        _classCallCheck(this, TestViewApp);
+	    function TestClassificationApp(props) {
+	        _classCallCheck(this, TestClassificationApp);
 
-	        var _this = _possibleConstructorReturn(this, (TestViewApp.__proto__ || Object.getPrototypeOf(TestViewApp)).call(this, props));
+	        var _this = _possibleConstructorReturn(this, (TestClassificationApp.__proto__ || Object.getPrototypeOf(TestClassificationApp)).call(this, props));
 
 	        _this.state = {
 	            value: ""
@@ -22746,7 +22749,7 @@
 	        return _this;
 	    }
 
-	    _createClass(TestViewApp, [{
+	    _createClass(TestClassificationApp, [{
 	        key: 'render',
 	        value: function render() {
 	            var _this2 = this;
@@ -22761,7 +22764,7 @@
 	                _react2.default.createElement(
 	                    'button',
 	                    { onClick: function onClick() {
-	                            _this2.props.test_view_post(_this2.state.value);
+	                            _this2.props.test_classification(_this2.state.value);
 	                        } },
 	                    'Send'
 	                ),
@@ -22769,27 +22772,39 @@
 	                _react2.default.createElement(
 	                    'p',
 	                    null,
-	                    'You sent: ',
-	                    this.props.test_view_data
+	                    'Result sentiment: ',
+	                    this.props.test_classification_view_data.sentiment
+	                ),
+	                _react2.default.createElement(
+	                    'p',
+	                    null,
+	                    'Result sentiment: ',
+	                    this.props.test_classification_view_data.confidence
+	                ),
+	                _react2.default.createElement(
+	                    'p',
+	                    null,
+	                    'Result sentiment: ',
+	                    this.props.test_classification_view_data.classification_words
 	                )
 	            );
 	        }
 	    }]);
 
-	    return TestViewApp;
+	    return TestClassificationApp;
 	}(_react.Component);
 
 	function mapStateToProps(state) {
 	    return {
-	        test_view_data: state.test_view_data
+	        test_classification_view_data: state.test_classification_view_data
 	    };
 	}
 
 	function mapDispatchToProps(dispatch) {
-	    return (0, _redux.bindActionCreators)({ test_view_post: _index.test_view_post }, dispatch);
+	    return (0, _redux.bindActionCreators)({ test_classification: _index.test_classification }, dispatch);
 	}
 
-	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(TestViewApp);
+	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(TestClassificationApp);
 
 /***/ },
 /* 210 */
@@ -22801,6 +22816,7 @@
 	    value: true
 	});
 	exports.test_view_post = test_view_post;
+	exports.test_classification = test_classification;
 
 	var _superagent = __webpack_require__(211);
 
@@ -22829,6 +22845,32 @@
 	                return {
 	                    type: "TEST_VIEW_RESULT",
 	                    payload: "ERROR"
+	                };
+	            }
+	        });
+	    };
+	}
+
+	/* ----- */
+
+	function test_classification_liaison(data) {
+	    return {
+	        type: "TEST_CLASSIFICATION_RESULT",
+	        payload: data
+	    };
+	}
+
+	function test_classification(text) {
+	    return function (dispatch) {
+	        var test_request = _superagent2.default.post('/test_classification/');
+	        test_request.send({ "text": text });
+	        test_request.end(function (error, response) {
+	            if (error == null) {
+	                dispatch(test_classification_liaison(response.body));
+	            } else {
+	                return {
+	                    type: "TEST_CLASSIFICATION_RESULT",
+	                    payload: {}
 	                };
 	            }
 	        });
@@ -24837,10 +24879,15 @@
 
 	var _reducer_test_view2 = _interopRequireDefault(_reducer_test_view);
 
+	var _reducer_test_classification_view = __webpack_require__(221);
+
+	var _reducer_test_classification_view2 = _interopRequireDefault(_reducer_test_classification_view);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var rootReducer = (0, _redux.combineReducers)({
-	    test_view_data: _reducer_test_view2.default
+	    test_view_data: _reducer_test_view2.default,
+	    test_classification_view_data: _reducer_test_classification_view2.default
 	});
 
 	exports.default = rootReducer;
@@ -24861,6 +24908,28 @@
 
 	    switch (action.type) {
 	        case "TEST_VIEW_RESULT":
+	            return action.payload;
+	        default:
+	            return state;
+	    }
+	};
+
+/***/ },
+/* 221 */
+/***/ function(module, exports) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	exports.default = function () {
+	    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+	    var action = arguments[1];
+
+	    switch (action.type) {
+	        case "TEST_CLASSIFICATION_RESULT":
 	            return action.payload;
 	        default:
 	            return state;

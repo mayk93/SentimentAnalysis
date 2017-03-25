@@ -13,14 +13,12 @@ def test_view(request, format=None):
     if request.method == 'GET':
         return JsonResponse({"ok": True, "message": "GET to test_view"}, safe=False, status=status.HTTP_200_OK)
     elif request.method == 'POST':
-        print request.data
         return JsonResponse({"ok": True, "received": request.data["sent"]}, safe=False, status=status.HTTP_200_OK)
 
 
-@api_view(['GET', 'POST'])
+@api_view(['POST'])
 def classify(request, format=None):
-    if request.method == 'GET':
-        return JsonResponse({}, safe=False, status=status.HTTP_200_OK)
-    elif request.method == 'POST':
-        print request.data
-        return JsonResponse({}, safe=False, status=status.HTTP_200_OK)
+    if request.method == 'POST':
+        request_json = request.data
+        response = sentiment_classifier.classify(request_json)
+        return JsonResponse(response, safe=False, status=status.HTTP_200_OK)

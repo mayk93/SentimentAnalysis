@@ -28,3 +28,31 @@ export function test_view_post(data) {
         });
     }
 }
+
+/* ----- */
+
+
+function test_classification_liaison(data) {
+    return {
+        type: "TEST_CLASSIFICATION_RESULT",
+        payload: data
+    };
+}
+
+
+export function test_classification(text) {
+    return function(dispatch) {
+        let test_request = request.post('/test_classification/');
+        test_request.send({"text": text});
+        test_request.end((error, response) => {
+            if (error == null) {
+                dispatch(test_classification_liaison(response.body));
+            } else {
+                return {
+                    type: "TEST_CLASSIFICATION_RESULT",
+                    payload: {}
+                };
+            }
+        });
+    }
+}
