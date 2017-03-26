@@ -1,6 +1,19 @@
 import os
-import nltk
 import pickle
+
+# NLTK #
+# ==================================================================================================================== #
+
+import collections
+import nltk.classify.util, nltk.metrics
+from nltk.classify import NaiveBayesClassifier
+
+from nltk import precision
+from nltk import recall
+
+from nltk.corpus import stopwords
+
+# ==================================================================================================================== #
 
 
 def get_data(path, files):
@@ -14,6 +27,10 @@ def get_data(path, files):
                 data.append((sentence, label))
 
     return data
+
+
+def remove_stopwords(words):
+    return dict([(word, True) for word in words if word not in stopwords.words("english")])
 
 
 class SentimentClassifier(object):
@@ -43,7 +60,7 @@ class SentimentClassifier(object):
             self.classifier = pickle.load(source)
 
     def _save(self):
-        with open('my_classifier.pickle', 'wb') as destination:
+        with open('simple_classifier.pickle', 'wb') as destination:
             pickle.dump(self.classifier, destination)
 
     def _train(self):
@@ -51,6 +68,31 @@ class SentimentClassifier(object):
                              ["amazon_cells_labelled.txt",
                               "imdb_labelled.txt",
                               "yelp_labelled.txt"])
+
+        negative_words = [(remove_stopwords(sentence.split()), 'neg') for sentence, label in self.data if label == 0]
+        positive_words = [(remove_stopwords(sentence.split()), 'pos') for sentence, label in self.data if label == 1]
+
+        negative_test_split = len(negative_words) * 3 / 4
+        positive_test_split = len(positive_words) * 3 / 4
+
+        train_words = negative_words[:negative_test_split] + positive_words[:positive_test_split]
+        test_words = negative_words[negative_test_split:] + positive_words[positive_test_split:]
+
+        classifier = NaiveBayesClassifier.train(train_words)
+        correct_labels = collections.defaultdict(set)
+        predictions = collections.defaultdict(set)
+
+        for i, (feats, label) in enumerate(test_words):
+            correct_labels[label].add(i)
+            observed = classifier.classify(feats)
+            predictions[observed].add(i)
+            
+        print 'accuracy:', nltk.classify.util.accuracy(classifier, test_words)
+        print 'pos precision:', precision(correct_labels['pos'], predictions['pos'])
+        print 'pos recall:', recall(correct_labels['pos'], predictions['pos'])
+        print 'neg precision:', precision(correct_labels['neg'], predictions['neg'])
+        print 'neg recall:', recall(correct_labels['neg'], predictions['neg'])
+        classifier.show_most_informative_features(50)
 
     def classify(self, classification_input):
         return {
@@ -94,3 +136,6 @@ class TestSentimentClassifier(unittest.TestCase):
 
         self.assertEquals(1500, count_0)
         self.assertEquals(1500, count_1)
+
+    def test_train(self):
+        self.sc._train()
