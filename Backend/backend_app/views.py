@@ -6,6 +6,7 @@ from SentimentClassifier.SentimentClassifier import SentimentClassifier
 
 
 sentiment_classifier = SentimentClassifier()
+sentiment_classifier.get_classifier()
 
 
 @api_view(['GET', 'POST'])
@@ -20,5 +21,7 @@ def test_view(request, format=None):
 def classify(request, format=None):
     if request.method == 'POST':
         request_json = request.data
+        print request_json
         response = sentiment_classifier.classify(request_json)
+        print response
         return JsonResponse(response, safe=False, status=status.HTTP_200_OK)

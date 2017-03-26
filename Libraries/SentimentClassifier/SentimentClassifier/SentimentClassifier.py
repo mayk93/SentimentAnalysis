@@ -97,8 +97,15 @@ class SentimentClassifier(object):
         self.classifier = classifier
 
     def classify(self, classification_input):
+        classification_input_dict = {}
+        for word in classification_input.get("text", "").split(" "):
+            classification_input_dict[word] = True
+
+        result = self.classifier.classify(classification_input_dict)
+        print result
+
         return {
-            "sentiment": "Unknown",
+            "sentiment": result,
             "confidence": 0,
             "classification_words": classification_input.get("text", "").split(" ")
         }
