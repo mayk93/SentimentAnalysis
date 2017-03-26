@@ -12,6 +12,9 @@ import { bindActionCreators } from 'redux';
 /* Actions */
 import { test_classification } from '../actions/index';
 
+/* Other Components */
+import Textarea from 'react-textarea-autosize';
+
 class TestClassificationApp extends Component {
     constructor(props) {
         super(props);
@@ -19,19 +22,28 @@ class TestClassificationApp extends Component {
         this.state = {
             value: ""
         };
+
+        this.handle_text_area_change.bind(this);
+
+    }
+
+    handle_text_area_change(event) {
+        this.setState({value: event.target.value}, () => {
+            this.props.test_classification(this.state.value);
+        });
     }
 
     render() {
         return (
             <div>
-                <textarea className="basic_text_area"
-                          onChange={(event) => {this.setState({value: event.target.value})}} />
+                <Textarea className="basic_text_area"
+                          onChange={(event) => {this.handle_text_area_change(event)}} />
                 <br/>
                 <button onClick={() => {this.props.test_classification(this.state.value)}}>Send</button>
                 <br/>
                 <p>Result sentiment: {this.props.test_classification_view_data.sentiment}</p>
-                <p>Result sentiment: {this.props.test_classification_view_data.confidence}</p>
-                <p>Result sentiment: {this.props.test_classification_view_data.classification_words}</p>
+                <p>Result confidence: {this.props.test_classification_view_data.confidence}</p>
+                <p>Result classification words : {this.props.test_classification_view_data.classification_words}</p>
             </div>
         )
 

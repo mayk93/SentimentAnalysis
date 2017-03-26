@@ -21,7 +21,10 @@ def test_view(request, format=None):
 def classify(request, format=None):
     if request.method == 'POST':
         request_json = request.data
-        print request_json
+        print "Received: %s" % request_json
+        if sentiment_classifier.classifier is None:
+            print "No classifier for some reason."
+            sentiment_classifier.get_classifier()
         response = sentiment_classifier.classify(request_json)
         print response
         return JsonResponse(response, safe=False, status=status.HTTP_200_OK)
