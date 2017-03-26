@@ -94,6 +94,8 @@ class SentimentClassifier(object):
         print 'neg recall:', recall(correct_labels['neg'], predictions['neg'])
         classifier.show_most_informative_features(50)
 
+        self.classifier = classifier
+
     def classify(self, classification_input):
         return {
             "sentiment": "Unknown",
@@ -139,3 +141,10 @@ class TestSentimentClassifier(unittest.TestCase):
 
     def test_train(self):
         self.sc._train()
+        classification_input = {}
+        for word in "Hello. This is a good thing. Happy!".split():
+            classification_input[word] = True
+        print self.sc.classifier.classify(classification_input)
+        for word in "This sucks, it is horrible!".split():
+            classification_input[word] = True
+        print self.sc.classifier.classify(classification_input)
