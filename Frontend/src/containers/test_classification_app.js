@@ -12,8 +12,11 @@ import { bindActionCreators } from 'redux';
 /* Actions */
 import { test_classification } from '../actions/index';
 
-/* Other Components */
-import Textarea from 'react-textarea-autosize';
+/*
+                <br/>
+                <button onClick={() => {this.props.test_classification(this.state.value)}}>Send</button>
+                <br/>
+*/
 
 class TestClassificationApp extends Component {
     constructor(props) {
@@ -24,7 +27,7 @@ class TestClassificationApp extends Component {
         };
 
         this.handle_text_area_change.bind(this);
-
+        this.to_li.bind(this);
     }
 
     handle_text_area_change(event) {
@@ -33,17 +36,42 @@ class TestClassificationApp extends Component {
         });
     }
 
+    to_li(word_list) {
+        console.log("Word list", word_list);
+        if (word_list == null || typeof word_list == "undefined") {
+            return [];
+        }
+        return word_list.map((word) => {
+            return <li>{word}</li>
+        })
+    }
+
     render() {
         return (
             <div>
-                <Textarea className="basic_text_area"
-                          onChange={(event) => {this.handle_text_area_change(event)}} />
-                <br/>
-                <button onClick={() => {this.props.test_classification(this.state.value)}}>Send</button>
-                <br/>
-                <p>Result sentiment: {this.props.test_classification_view_data.sentiment}</p>
-                <p>Result confidence: {this.props.test_classification_view_data.confidence}</p>
-                <p>Result classification words : {this.props.test_classification_view_data.classification_words}</p>
+                <form style={{"padding": "10px"}}>
+                    <textarea className="form-control basic_text_area"
+                              onChange={(event) => {this.handle_text_area_change(event)}} />
+                </form>
+
+                <hr/>
+
+                <p className="result_sentiment">
+                    Result sentiment: {this.props.test_classification_view_data.sentiment}
+                </p>
+                <p className="result_confidence">
+                    Result confidence: {this.props.test_classification_view_data.confidence}
+                </p>
+                <p className="confidence_color" style={{"backgroundColor": "red"}}>
+
+                </p>
+
+                <hr/>
+
+                <p>Result classification words :</p>
+                <ul>
+                    {this.to_li(this.props.test_classification_view_data.classification_words)}
+                </ul>
             </div>
         )
 

@@ -77,7 +77,7 @@
 
 	var _app2 = _interopRequireDefault(_app);
 
-	var _reducers = __webpack_require__(221);
+	var _reducers = __webpack_require__(219);
 
 	var _reducers2 = _interopRequireDefault(_reducers);
 
@@ -22716,10 +22716,6 @@
 
 	var _index = __webpack_require__(210);
 
-	var _reactTextareaAutosize = __webpack_require__(219);
-
-	var _reactTextareaAutosize2 = _interopRequireDefault(_reactTextareaAutosize);
-
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -22739,8 +22735,11 @@
 	/* Actions */
 
 
-	/* Other Components */
-
+	/*
+	                <br/>
+	                <button onClick={() => {this.props.test_classification(this.state.value)}}>Send</button>
+	                <br/>
+	*/
 
 	var TestClassificationApp = function (_Component) {
 	    _inherits(TestClassificationApp, _Component);
@@ -22755,7 +22754,7 @@
 	        };
 
 	        _this.handle_text_area_change.bind(_this);
-
+	        _this.to_li.bind(_this);
 	        return _this;
 	    }
 
@@ -22769,6 +22768,21 @@
 	            });
 	        }
 	    }, {
+	        key: 'to_li',
+	        value: function to_li(word_list) {
+	            console.log("Word list", word_list);
+	            if (word_list == null || typeof word_list == "undefined") {
+	                return [];
+	            }
+	            return word_list.map(function (word) {
+	                return _react2.default.createElement(
+	                    'li',
+	                    null,
+	                    word
+	                );
+	            });
+	        }
+	    }, {
 	        key: 'render',
 	        value: function render() {
 	            var _this3 = this;
@@ -22776,36 +22790,38 @@
 	            return _react2.default.createElement(
 	                'div',
 	                null,
-	                _react2.default.createElement(_reactTextareaAutosize2.default, { className: 'basic_text_area',
-	                    onChange: function onChange(event) {
-	                        _this3.handle_text_area_change(event);
-	                    } }),
-	                _react2.default.createElement('br', null),
 	                _react2.default.createElement(
-	                    'button',
-	                    { onClick: function onClick() {
-	                            _this3.props.test_classification(_this3.state.value);
-	                        } },
-	                    'Send'
+	                    'form',
+	                    { style: { "padding": "10px" } },
+	                    _react2.default.createElement('textarea', { className: 'form-control basic_text_area',
+	                        onChange: function onChange(event) {
+	                            _this3.handle_text_area_change(event);
+	                        } })
 	                ),
-	                _react2.default.createElement('br', null),
+	                _react2.default.createElement('hr', null),
 	                _react2.default.createElement(
 	                    'p',
-	                    null,
+	                    { className: 'result_sentiment' },
 	                    'Result sentiment: ',
 	                    this.props.test_classification_view_data.sentiment
 	                ),
 	                _react2.default.createElement(
 	                    'p',
-	                    null,
+	                    { className: 'result_confidence' },
 	                    'Result confidence: ',
 	                    this.props.test_classification_view_data.confidence
 	                ),
+	                _react2.default.createElement('p', { className: 'confidence_color', style: { "backgroundColor": "red" } }),
+	                _react2.default.createElement('hr', null),
 	                _react2.default.createElement(
 	                    'p',
 	                    null,
-	                    'Result classification words : ',
-	                    this.props.test_classification_view_data.classification_words
+	                    'Result classification words :'
+	                ),
+	                _react2.default.createElement(
+	                    'ul',
+	                    null,
+	                    this.to_li(this.props.test_classification_view_data.classification_words)
 	                )
 	            );
 	        }
@@ -24890,425 +24906,16 @@
 	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	exports.default = undefined;
-
-	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
-
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-	var _class, _temp; /**
-	                    * <TextareaAutosize />
-	                    */
-
-	var _react = __webpack_require__(2);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _calculateNodeHeight = __webpack_require__(220);
-
-	var _calculateNodeHeight2 = _interopRequireDefault(_calculateNodeHeight);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-	var emptyFunction = function emptyFunction() {};
-
-	var TextareaAutosize = (_temp = _class = function (_React$Component) {
-	  _inherits(TextareaAutosize, _React$Component);
-
-	  function TextareaAutosize(props) {
-	    _classCallCheck(this, TextareaAutosize);
-
-	    var _this = _possibleConstructorReturn(this, (TextareaAutosize.__proto__ || Object.getPrototypeOf(TextareaAutosize)).call(this, props));
-
-	    _this.state = {
-	      height: null,
-	      minHeight: -Infinity,
-	      maxHeight: Infinity
-	    };
-	    _this._onNextFrameActionId = null;
-	    _this._rootDOMNode = null;
-	    _this._onChange = _this._onChange.bind(_this);
-	    _this._resizeComponent = _this._resizeComponent.bind(_this);
-	    _this._onRootDOMNode = _this._onRootDOMNode.bind(_this);
-	    return _this;
-	  }
-
-	  _createClass(TextareaAutosize, [{
-	    key: 'render',
-	    value: function render() {
-	      var _props = this.props;
-	      var valueLink = _props.valueLink;
-	      var _minRows = _props.minRows;
-	      var _maxRows = _props.maxRows;
-	      var _onHeightChange = _props.onHeightChange;
-	      var _useCacheForDOMMeasurements = _props.useCacheForDOMMeasurements;
-
-	      var props = _objectWithoutProperties(_props, ['valueLink', 'minRows', 'maxRows', 'onHeightChange', 'useCacheForDOMMeasurements']);
-
-	      if ((typeof valueLink === 'undefined' ? 'undefined' : _typeof(valueLink)) === 'object') {
-	        props.value = valueLink.value;
-	      }
-	      props.style = _extends({}, props.style, {
-	        height: this.state.height || 0
-	      });
-	      var maxHeight = Math.max(props.style.maxHeight ? props.style.maxHeight : Infinity, this.state.maxHeight);
-	      if (maxHeight < this.state.height) {
-	        props.style.overflow = 'hidden';
-	      }
-	      return _react2.default.createElement('textarea', _extends({}, props, {
-	        onChange: this._onChange,
-	        ref: this._onRootDOMNode
-	      }));
-	    }
-	  }, {
-	    key: 'componentDidMount',
-	    value: function componentDidMount() {
-	      this._resizeComponent();
-	      window.addEventListener('resize', this._resizeComponent);
-	    }
-	  }, {
-	    key: 'componentWillReceiveProps',
-	    value: function componentWillReceiveProps() {
-	      // Re-render with the new content then recalculate the height as required.
-	      this._clearNextFrame();
-	      this._onNextFrameActionId = onNextFrame(this._resizeComponent);
-	    }
-	  }, {
-	    key: 'componentDidUpdate',
-	    value: function componentDidUpdate(prevProps, prevState) {
-	      // Invoke callback when old height does not equal to new one.
-	      if (this.state.height !== prevState.height) {
-	        this.props.onHeightChange(this.state.height);
-	      }
-	    }
-	  }, {
-	    key: 'componentWillUnmount',
-	    value: function componentWillUnmount() {
-	      // Remove any scheduled events to prevent manipulating the node after it's
-	      // been unmounted.
-	      this._clearNextFrame();
-	      window.removeEventListener('resize', this._resizeComponent);
-	    }
-	  }, {
-	    key: '_clearNextFrame',
-	    value: function _clearNextFrame() {
-	      if (this._onNextFrameActionId) {
-	        clearNextFrameAction(this._onNextFrameActionId);
-	      }
-	    }
-	  }, {
-	    key: '_onRootDOMNode',
-	    value: function _onRootDOMNode(node) {
-	      this._rootDOMNode = node;
-	    }
-	  }, {
-	    key: '_onChange',
-	    value: function _onChange(e) {
-	      this._resizeComponent();
-	      var _props2 = this.props;
-	      var valueLink = _props2.valueLink;
-	      var onChange = _props2.onChange;
-
-	      if (valueLink) {
-	        valueLink.requestChange(e.target.value);
-	      } else {
-	        onChange(e);
-	      }
-	    }
-	  }, {
-	    key: '_resizeComponent',
-	    value: function _resizeComponent() {
-	      var useCacheForDOMMeasurements = this.props.useCacheForDOMMeasurements;
-
-	      this.setState((0, _calculateNodeHeight2.default)(this._rootDOMNode, useCacheForDOMMeasurements, this.props.rows || this.props.minRows, this.props.maxRows));
-	    }
-
-	    /**
-	     * Read the current value of <textarea /> from DOM.
-	     */
-
-	  }, {
-	    key: 'focus',
-
-
-	    /**
-	     * Put focus on a <textarea /> DOM element.
-	     */
-	    value: function focus() {
-	      this._rootDOMNode.focus();
-	    }
-
-	    /**
-	     * Shifts focus away from a <textarea /> DOM element.
-	     */
-
-	  }, {
-	    key: 'blur',
-	    value: function blur() {
-	      this._rootDOMNode.blur();
-	    }
-	  }, {
-	    key: 'value',
-	    get: function get() {
-	      return this._rootDOMNode.value;
-	    }
-
-	    /**
-	     * Set the current value of <textarea /> DOM node.
-	     */
-	    ,
-	    set: function set(val) {
-	      this._rootDOMNode.value = val;
-	    }
-
-	    /**
-	     * Read the current selectionStart of <textarea /> from DOM.
-	     */
-
-	  }, {
-	    key: 'selectionStart',
-	    get: function get() {
-	      return this._rootDOMNode.selectionStart;
-	    }
-
-	    /**
-	     * Set the current selectionStart of <textarea /> DOM node.
-	     */
-	    ,
-	    set: function set(selectionStart) {
-	      this._rootDOMNode.selectionStart = selectionStart;
-	    }
-
-	    /**
-	     * Read the current selectionEnd of <textarea /> from DOM.
-	     */
-
-	  }, {
-	    key: 'selectionEnd',
-	    get: function get() {
-	      return this._rootDOMNode.selectionEnd;
-	    }
-
-	    /**
-	     * Set the current selectionEnd of <textarea /> DOM node.
-	     */
-	    ,
-	    set: function set(selectionEnd) {
-	      this._rootDOMNode.selectionEnd = selectionEnd;
-	    }
-	  }]);
-
-	  return TextareaAutosize;
-	}(_react2.default.Component), _class.propTypes = {
-	  /**
-	   * Current textarea value.
-	   */
-	  value: _react2.default.PropTypes.string,
-
-	  /**
-	   * Callback on value change.
-	   */
-	  onChange: _react2.default.PropTypes.func,
-
-	  /**
-	   * Callback on height changes.
-	   */
-	  onHeightChange: _react2.default.PropTypes.func,
-
-	  /**
-	   * Try to cache DOM measurements performed by component so that we don't
-	   * touch DOM when it's not needed.
-	   *
-	   * This optimization doesn't work if we dynamically style <textarea />
-	   * component.
-	   */
-	  useCacheForDOMMeasurements: _react2.default.PropTypes.bool,
-
-	  /**
-	   * Minimal numbder of rows to show.
-	   */
-	  rows: _react2.default.PropTypes.number,
-
-	  /**
-	   * Alias for `rows`.
-	   */
-	  minRows: _react2.default.PropTypes.number,
-
-	  /**
-	   * Maximum number of rows to show.
-	   */
-	  maxRows: _react2.default.PropTypes.number
-	}, _class.defaultProps = {
-	  onChange: emptyFunction,
-	  onHeightChange: emptyFunction,
-	  useCacheForDOMMeasurements: false
-	}, _temp);
-	exports.default = TextareaAutosize;
-
-
-	function onNextFrame(cb) {
-	  if (window.requestAnimationFrame) {
-	    return window.requestAnimationFrame(cb);
-	  }
-	  return window.setTimeout(cb, 1);
-	}
-
-	function clearNextFrameAction(nextFrameId) {
-	  if (window.cancelAnimationFrame) {
-	    window.cancelAnimationFrame(nextFrameId);
-	  } else {
-	    window.clearTimeout(nextFrameId);
-	  }
-	}
-
-
-/***/ },
-/* 220 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	exports.default = calculateNodeHeight;
-	/**
-	 * calculateNodeHeight(uiTextNode, useCache = false)
-	 */
-
-	var HIDDEN_TEXTAREA_STYLE = '\n  min-height:0 !important;\n  max-height:none !important;\n  height:0 !important;\n  visibility:hidden !important;\n  overflow:hidden !important;\n  position:absolute !important;\n  z-index:-1000 !important;\n  top:0 !important;\n  right:0 !important\n';
-
-	var SIZING_STYLE = ['letter-spacing', 'line-height', 'padding-top', 'padding-bottom', 'font-family', 'font-weight', 'font-size', 'text-rendering', 'text-transform', 'width', 'text-indent', 'padding-left', 'padding-right', 'border-width', 'box-sizing'];
-
-	var computedStyleCache = {};
-	var hiddenTextarea = void 0;
-
-	function calculateNodeHeight(uiTextNode) {
-	  var useCache = arguments.length <= 1 || arguments[1] === undefined ? false : arguments[1];
-	  var minRows = arguments.length <= 2 || arguments[2] === undefined ? null : arguments[2];
-	  var maxRows = arguments.length <= 3 || arguments[3] === undefined ? null : arguments[3];
-
-	  if (!hiddenTextarea) {
-	    hiddenTextarea = document.createElement('textarea');
-	    document.body.appendChild(hiddenTextarea);
-	  }
-
-	  // Copy all CSS properties that have an impact on the height of the content in
-	  // the textbox
-
-	  var _calculateNodeStyling = calculateNodeStyling(uiTextNode, useCache);
-
-	  var paddingSize = _calculateNodeStyling.paddingSize;
-	  var borderSize = _calculateNodeStyling.borderSize;
-	  var boxSizing = _calculateNodeStyling.boxSizing;
-	  var sizingStyle = _calculateNodeStyling.sizingStyle;
-
-	  // Need to have the overflow attribute to hide the scrollbar otherwise
-	  // text-lines will not calculated properly as the shadow will technically be
-	  // narrower for content
-
-	  hiddenTextarea.setAttribute('style', sizingStyle + ';' + HIDDEN_TEXTAREA_STYLE);
-	  hiddenTextarea.value = uiTextNode.value || uiTextNode.placeholder || 'x';
-
-	  var minHeight = -Infinity;
-	  var maxHeight = Infinity;
-	  var height = hiddenTextarea.scrollHeight;
-
-	  if (boxSizing === 'border-box') {
-	    // border-box: add border, since height = content + padding + border
-	    height = height + borderSize;
-	  } else if (boxSizing === 'content-box') {
-	    // remove padding, since height = content
-	    height = height - paddingSize;
-	  }
-
-	  if (minRows !== null || maxRows !== null) {
-	    // measure height of a textarea with a single row
-	    hiddenTextarea.value = 'x';
-	    var singleRowHeight = hiddenTextarea.scrollHeight - paddingSize;
-	    if (minRows !== null) {
-	      minHeight = singleRowHeight * minRows;
-	      if (boxSizing === 'border-box') {
-	        minHeight = minHeight + paddingSize + borderSize;
-	      }
-	      height = Math.max(minHeight, height);
-	    }
-	    if (maxRows !== null) {
-	      maxHeight = singleRowHeight * maxRows;
-	      if (boxSizing === 'border-box') {
-	        maxHeight = maxHeight + paddingSize + borderSize;
-	      }
-	      height = Math.min(maxHeight, height);
-	    }
-	  }
-	  return { height: height, minHeight: minHeight, maxHeight: maxHeight };
-	}
-
-	function calculateNodeStyling(node) {
-	  var useCache = arguments.length <= 1 || arguments[1] === undefined ? false : arguments[1];
-
-	  var nodeRef = node.getAttribute('id') || node.getAttribute('data-reactid') || node.getAttribute('name');
-
-	  if (useCache && computedStyleCache[nodeRef]) {
-	    return computedStyleCache[nodeRef];
-	  }
-
-	  var style = window.getComputedStyle(node);
-
-	  var boxSizing = style.getPropertyValue('box-sizing') || style.getPropertyValue('-moz-box-sizing') || style.getPropertyValue('-webkit-box-sizing');
-
-	  var paddingSize = parseFloat(style.getPropertyValue('padding-bottom')) + parseFloat(style.getPropertyValue('padding-top'));
-
-	  var borderSize = parseFloat(style.getPropertyValue('border-bottom-width')) + parseFloat(style.getPropertyValue('border-top-width'));
-
-	  var sizingStyle = SIZING_STYLE.map(function (name) {
-	    return name + ':' + style.getPropertyValue(name);
-	  }).join(';');
-
-	  var nodeInfo = {
-	    sizingStyle: sizingStyle,
-	    paddingSize: paddingSize,
-	    borderSize: borderSize,
-	    boxSizing: boxSizing
-	  };
-
-	  if (useCache && nodeRef) {
-	    computedStyleCache[nodeRef] = nodeInfo;
-	  }
-
-	  return nodeInfo;
-	}
-
-
-/***/ },
-/* 221 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
 
 	var _redux = __webpack_require__(167);
 
-	var _reducer_test_view = __webpack_require__(222);
+	var _reducer_test_view = __webpack_require__(220);
 
 	var _reducer_test_view2 = _interopRequireDefault(_reducer_test_view);
 
-	var _reducer_test_classification_view = __webpack_require__(223);
+	var _reducer_test_classification_view = __webpack_require__(221);
 
 	var _reducer_test_classification_view2 = _interopRequireDefault(_reducer_test_classification_view);
 
@@ -25322,7 +24929,7 @@
 	exports.default = rootReducer;
 
 /***/ },
-/* 222 */
+/* 220 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -25344,7 +24951,7 @@
 	};
 
 /***/ },
-/* 223 */
+/* 221 */
 /***/ function(module, exports) {
 
 	"use strict";

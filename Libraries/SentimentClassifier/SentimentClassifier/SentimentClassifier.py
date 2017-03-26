@@ -106,8 +106,11 @@ class SentimentClassifier(object):
 
         return {
             "sentiment": result,
-            "confidence": 0,
-            "classification_words": classification_input.get("text", "").split(" ")
+            "confidence": 0,  # ToDo: Get classification confidence
+            "classification_words": [
+                word for word in classification_input.get("text", "").split(" ") if word in
+                [f[0] for f in self.classifier.most_informative_features()]
+            ]
         }
 
 
