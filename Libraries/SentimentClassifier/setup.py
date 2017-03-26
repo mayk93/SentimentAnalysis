@@ -14,7 +14,7 @@ with open(path.join(current_path, 'README.md'), encoding='utf-8') as f:
 
 setup(
     name='SentimentClassifier',
-    version='0.0.7',
+    version='0.0.9',
 
     description='A library used in the Sentiment Analysis app',
     long_description=long_description,

@@ -24,7 +24,8 @@ class TestClassificationApp extends Component {
     render() {
         return (
             <div>
-                <input type="text" onChange={(event) => {this.setState({value: event.target.value})}} />
+                <textarea className="basic_text_area"
+                          onChange={(event) => {this.setState({value: event.target.value})}} />
                 <br/>
                 <button onClick={() => {this.props.test_classification(this.state.value)}}>Send</button>
                 <br/>

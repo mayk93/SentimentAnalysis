@@ -22757,7 +22757,9 @@
 	            return _react2.default.createElement(
 	                'div',
 	                null,
-	                _react2.default.createElement('input', { type: 'text', onChange: function onChange(event) {
+	                _react2.default.createElement('textarea', { className: 'basic_text_area',
+
+	                    onChange: function onChange(event) {
 	                        _this2.setState({ value: event.target.value });
 	                    } }),
 	                _react2.default.createElement('br', null),
