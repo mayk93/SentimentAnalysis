@@ -1,20 +1,5 @@
 import request from 'superagent';
-
-
-/* --- */
-
-function debounce(fn, delay) {
-    var timer = null;
-    return function () {
-        var context = this, args = arguments;
-        clearTimeout(timer);
-        timer = setTimeout(function () {
-            fn.apply(context, args);
-        }, delay);
-    };
-}
-
-/* --- */
+import _ from 'lodash';
 
 
 function test_view_post_liaison(data) {
@@ -56,19 +41,25 @@ function test_classification_liaison(data) {
 }
 
 
+function _test_classification(dispatch, text) {
+    let test_request = request.post('/test_classification/');
+    test_request.send({"text": text});
+    test_request.end((error, response) => {
+        if (error == null) {
+            dispatch(test_classification_liaison(response.body));
+        } else {
+            dispatch({
+                type: "TEST_CLASSIFICATION_RESULT",
+                payload: {}
+            });
+        }
+    });
+}
+
+const debounced_test_classification = _.debounce((dispatch, text) => { _test_classification(dispatch, text)}, 250);
+
 export function test_classification(text) {
-    return debounce(function(dispatch) {
-        let test_request = request.post('/test_classification/');
-        test_request.send({"text": text});
-        test_request.end((error, response) => {
-            if (error == null) {
-                dispatch(test_classification_liaison(response.body));
-            } else {
-                return {
-                    type: "TEST_CLASSIFICATION_RESULT",
-                    payload: {}
-                };
-            }
-        });
-    }, 500)
+    return (dispatch) => {
+        debounced_test_classification(dispatch, text);
+    }
 }
