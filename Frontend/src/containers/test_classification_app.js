@@ -12,38 +12,26 @@ import { bindActionCreators } from 'redux';
 /* Actions */
 import { test_classification } from '../actions/index';
 
-/*
-                <br/>
-                <button onClick={() => {this.props.test_classification(this.state.value)}}>Send</button>
-                <br/>
-*/
+/* Other */
+import { list_to_li } from '../functions/index';
 
 class TestClassificationApp extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            value: ""
+            value: "",
+            // key_number: 0
         };
 
         this.handle_text_area_change.bind(this);
-        this.to_li.bind(this);
+        list_to_li.bind(this);
     }
 
     handle_text_area_change(event) {
         this.setState({value: event.target.value}, () => {
             this.props.test_classification(this.state.value);
         });
-    }
-
-    to_li(word_list) {
-        console.log("Word list", word_list);
-        if (word_list == null || typeof word_list == "undefined") {
-            return [];
-        }
-        return word_list.map((word) => {
-            return <li>{word}</li>
-        })
     }
 
     render() {
@@ -70,7 +58,7 @@ class TestClassificationApp extends Component {
 
                 <p>Result classification words :</p>
                 <ul>
-                    {this.to_li(this.props.test_classification_view_data.classification_words)}
+                    {list_to_li(this.props.test_classification_view_data.classification_words)}
                 </ul>
             </div>
         )

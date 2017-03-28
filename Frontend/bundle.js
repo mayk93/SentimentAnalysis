@@ -77,7 +77,7 @@
 
 	var _app2 = _interopRequireDefault(_app);
 
-	var _reducers = __webpack_require__(219);
+	var _reducers = __webpack_require__(220);
 
 	var _reducers2 = _interopRequireDefault(_reducers);
 
@@ -22716,6 +22716,8 @@
 
 	var _index = __webpack_require__(210);
 
+	var _index2 = __webpack_require__(219);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -22735,11 +22737,8 @@
 	/* Actions */
 
 
-	/*
-	                <br/>
-	                <button onClick={() => {this.props.test_classification(this.state.value)}}>Send</button>
-	                <br/>
-	*/
+	/* Other */
+
 
 	var TestClassificationApp = function (_Component) {
 	    _inherits(TestClassificationApp, _Component);
@@ -22754,7 +22753,7 @@
 	        };
 
 	        _this.handle_text_area_change.bind(_this);
-	        _this.to_li.bind(_this);
+	        _index2.list_to_li.bind(_this);
 	        return _this;
 	    }
 
@@ -22765,21 +22764,6 @@
 
 	            this.setState({ value: event.target.value }, function () {
 	                _this2.props.test_classification(_this2.state.value);
-	            });
-	        }
-	    }, {
-	        key: 'to_li',
-	        value: function to_li(word_list) {
-	            console.log("Word list", word_list);
-	            if (word_list == null || typeof word_list == "undefined") {
-	                return [];
-	            }
-	            return word_list.map(function (word) {
-	                return _react2.default.createElement(
-	                    'li',
-	                    null,
-	                    word
-	                );
 	            });
 	        }
 	    }, {
@@ -22821,7 +22805,7 @@
 	                _react2.default.createElement(
 	                    'ul',
 	                    null,
-	                    this.to_li(this.props.test_classification_view_data.classification_words)
+	                    (0, _index2.list_to_li)(this.props.test_classification_view_data.classification_words)
 	                )
 	            );
 	        }
@@ -22860,6 +22844,22 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+	/* --- */
+
+	function debounce(fn, delay) {
+	    var timer = null;
+	    return function () {
+	        var context = this,
+	            args = arguments;
+	        clearTimeout(timer);
+	        timer = setTimeout(function () {
+	            fn.apply(context, args);
+	        }, delay);
+	    };
+	}
+
+	/* --- */
+
 	function test_view_post_liaison(data) {
 	    return {
 	        type: "TEST_VIEW_RESULT",
@@ -22897,7 +22897,7 @@
 	}
 
 	function test_classification(text) {
-	    return function (dispatch) {
+	    return debounce(function (dispatch) {
 	        var test_request = _superagent2.default.post('/test_classification/');
 	        test_request.send({ "text": text });
 	        test_request.end(function (error, response) {
@@ -22910,7 +22910,7 @@
 	                };
 	            }
 	        });
-	    };
+	    }, 500);
 	}
 
 /***/ },
@@ -24903,6 +24903,38 @@
 /* 219 */
 /***/ function(module, exports, __webpack_require__) {
 
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	exports.list_to_li = list_to_li;
+
+	var _react = __webpack_require__(2);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function list_to_li(word_list) {
+	    if (word_list == null || typeof word_list == "undefined") {
+	        return [];
+	    }
+	    return word_list.map(function (word) {
+	        return _react2.default.createElement(
+	            "li",
+	            { key: word },
+	            word
+	        );
+	    });
+	} /**
+	   * Created by michael on 28/03/2017.
+	   */
+
+/***/ },
+/* 220 */
+/***/ function(module, exports, __webpack_require__) {
+
 	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
@@ -24911,11 +24943,11 @@
 
 	var _redux = __webpack_require__(167);
 
-	var _reducer_test_view = __webpack_require__(220);
+	var _reducer_test_view = __webpack_require__(221);
 
 	var _reducer_test_view2 = _interopRequireDefault(_reducer_test_view);
 
-	var _reducer_test_classification_view = __webpack_require__(221);
+	var _reducer_test_classification_view = __webpack_require__(222);
 
 	var _reducer_test_classification_view2 = _interopRequireDefault(_reducer_test_classification_view);
 
@@ -24929,7 +24961,7 @@
 	exports.default = rootReducer;
 
 /***/ },
-/* 220 */
+/* 221 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -24951,7 +24983,7 @@
 	};
 
 /***/ },
-/* 221 */
+/* 222 */
 /***/ function(module, exports) {
 
 	"use strict";

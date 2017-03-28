@@ -5,32 +5,11 @@ import pickle
 # ==================================================================================================================== #
 
 import collections
-import nltk.classify.util, nltk.metrics
 from nltk.classify import NaiveBayesClassifier
 
-from nltk import precision
-from nltk import recall
-
-from nltk.corpus import stopwords
+from SentimentClassifierUtils import get_data, remove_stopwords
 
 # ==================================================================================================================== #
-
-
-def get_data(path, files):
-    data = []
-
-    for file_name in files:
-        with open(os.path.join(path, file_name)) as source:
-            for line in source.readlines():
-                sentence, label = line.split("\t")
-                label = int(label)
-                data.append((sentence, label))
-
-    return data
-
-
-def remove_stopwords(words):
-    return dict([(word, True) for word in words if word not in stopwords.words("english")])
 
 
 class SentimentClassifier(object):
@@ -39,8 +18,6 @@ class SentimentClassifier(object):
         self.classifier_path = "/tmp/simple_sentiment_classifier"
         self.data_source = "/tmp/sentiment_data/sentiment_labelled_sentences"
 
-        # At least one of these must exist
-        # ToDo: Can this be made better?
         if not os.path.exists(self.data_source) and not os.path.exists(self.classifier_path):
             raise Exception("No data set or classifier found. Please run the download_data script.")
 
@@ -86,13 +63,6 @@ class SentimentClassifier(object):
             correct_labels[label].add(i)
             observed = classifier.classify(feats)
             predictions[observed].add(i)
-            
-        print 'accuracy:', nltk.classify.util.accuracy(classifier, test_words)
-        print 'pos precision:', precision(correct_labels['pos'], predictions['pos'])
-        print 'pos recall:', recall(correct_labels['pos'], predictions['pos'])
-        print 'neg precision:', precision(correct_labels['neg'], predictions['neg'])
-        print 'neg recall:', recall(correct_labels['neg'], predictions['neg'])
-        classifier.show_most_informative_features(50)
 
         self.classifier = classifier
 
@@ -102,15 +72,16 @@ class SentimentClassifier(object):
             classification_input_dict[word] = True
 
         result = self.classifier.classify(classification_input_dict)
+
         print result
 
         return {
             "sentiment": result,
             "confidence": 0,  # ToDo: Get classification confidence
-            "classification_words": [
+            "classification_words": list(set([
                 word for word in classification_input.get("text", "").split(" ") if word in
                 [f[0] for f in self.classifier.most_informative_features()]
-            ]
+            ]))
         }
 
 

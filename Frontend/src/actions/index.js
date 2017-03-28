@@ -1,6 +1,22 @@
 import request from 'superagent';
 
 
+/* --- */
+
+function debounce(fn, delay) {
+    var timer = null;
+    return function () {
+        var context = this, args = arguments;
+        clearTimeout(timer);
+        timer = setTimeout(function () {
+            fn.apply(context, args);
+        }, delay);
+    };
+}
+
+/* --- */
+
+
 function test_view_post_liaison(data) {
     return {
         type: "TEST_VIEW_RESULT",
@@ -41,7 +57,7 @@ function test_classification_liaison(data) {
 
 
 export function test_classification(text) {
-    return function(dispatch) {
+    return debounce(function(dispatch) {
         let test_request = request.post('/test_classification/');
         test_request.send({"text": text});
         test_request.end((error, response) => {
@@ -54,5 +70,5 @@ export function test_classification(text) {
                 };
             }
         });
-    }
+    }, 500)
 }
