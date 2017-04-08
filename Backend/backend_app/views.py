@@ -7,6 +7,7 @@ from SentimentClassifier.SentimentClassifier import SentimentClassifier
 
 sentiment_classifier = SentimentClassifier()
 sentiment_classifier.get_classifier()
+print sentiment_classifier.words
 
 
 @api_view(['GET', 'POST'])

@@ -22901,7 +22901,7 @@
 
 	var debounced_test_classification = _lodash2.default.debounce(function (dispatch, text) {
 	    _test_classification(dispatch, text);
-	}, 250);
+	}, 100);
 
 	function test_classification(text) {
 	    return function (dispatch) {

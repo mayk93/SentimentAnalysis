@@ -56,7 +56,9 @@ function _test_classification(dispatch, text) {
     });
 }
 
-const debounced_test_classification = _.debounce((dispatch, text) => { _test_classification(dispatch, text)}, 250);
+const debounced_test_classification = _.debounce((dispatch, text) => {
+    _test_classification(dispatch, text)
+}, 100);
 
 export function test_classification(text) {
     return (dispatch) => {

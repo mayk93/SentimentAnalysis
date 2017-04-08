@@ -20,8 +20,7 @@ class TestClassificationApp extends Component {
         super(props);
 
         this.state = {
-            value: "",
-            // key_number: 0
+            value: ""
         };
 
         this.handle_text_area_change.bind(this);

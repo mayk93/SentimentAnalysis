@@ -12,11 +12,20 @@ from SentimentClassifierUtils import get_data, remove_stopwords
 # ==================================================================================================================== #
 
 
+# Settings
+# ==================================================================================================================== #
+
+NUMBER_OF_WORDS = 500
+
+# ==================================================================================================================== #
+
+
 class SentimentClassifier(object):
     def __init__(self):
         self.classifier = None
         self.classifier_path = "/tmp/simple_sentiment_classifier"
         self.data_source = "/tmp/sentiment_data/sentiment_labelled_sentences"
+        self.words = None
 
         if not os.path.exists(self.data_source) and not os.path.exists(self.classifier_path):
             raise Exception("No data set or classifier found. Please run the download_data script.")
@@ -35,6 +44,7 @@ class SentimentClassifier(object):
     def _load(self):
         with open(self.classifier_path, 'rb') as source:
             self.classifier = pickle.load(source)
+            self.words = self.classifier.most_informative_features(NUMBER_OF_WORDS)
 
     def _save(self):
         with open('simple_classifier.pickle', 'wb') as destination:
@@ -65,6 +75,7 @@ class SentimentClassifier(object):
             predictions[observed].add(i)
 
         self.classifier = classifier
+        self.words = self.classifier.most_informative_features(NUMBER_OF_WORDS)
 
     def classify(self, classification_input):
         classification_input_dict = {}
@@ -80,7 +91,7 @@ class SentimentClassifier(object):
             "confidence": 0,  # ToDo: Get classification confidence
             "classification_words": list(set([
                 word for word in classification_input.get("text", "").split(" ") if word in
-                [f[0] for f in self.classifier.most_informative_features()]
+                [f[0] for f in self.words]
             ]))
         }
 
