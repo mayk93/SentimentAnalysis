@@ -37275,6 +37275,7 @@
 	        return [];
 	    }
 	    return word_list.map(function (word) {
+	        console.log(word);
 	        return _react2.default.createElement(
 	            "li",
 	            { key: word },

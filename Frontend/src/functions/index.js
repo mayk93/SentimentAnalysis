@@ -12,6 +12,7 @@ export function list_to_li(word_list) {
         return [];
     }
     return word_list.map((word) => {
-        return <li key={word}>{word}</li>
+        console.log(word);
+        return <li key={word[0]}>{word[0]}</li>
     })
 }

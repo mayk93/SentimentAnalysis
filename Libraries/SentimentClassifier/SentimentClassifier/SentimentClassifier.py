@@ -1,5 +1,6 @@
 import os
 import pickle
+from string import punctuation
 
 # NLTK #
 # ==================================================================================================================== #
@@ -18,6 +19,34 @@ from SentimentClassifierUtils import get_data, remove_stopwords
 NUMBER_OF_WORDS = 500
 
 # ==================================================================================================================== #
+
+
+def monkey_patch_most_informative_features(self, n=100):
+    from collections import defaultdict
+    features = set()
+    maxprob = defaultdict(lambda: 0.0)
+    minprob = defaultdict(lambda: 1.0)
+
+    for (label, fname), probdist in self._feature_probdist.items():
+        for fval in probdist.samples():
+            p = probdist.prob(fval)
+            feature = (fname, p)
+
+            features.add(feature)
+
+            maxprob[feature] = max(p, maxprob[feature])
+            minprob[feature] = min(p, minprob[feature])
+            if minprob[feature] == 0:
+                features.discard(feature)
+
+    features = sorted(features,
+                      key=lambda feature_:
+                      minprob[feature_] / maxprob[feature_])
+    return features[:n]
+
+
+def strip_punctuation(s):
+    return ''.join(c for c in s if c not in punctuation)
 
 
 class SentimentClassifier(object):
@@ -44,7 +73,8 @@ class SentimentClassifier(object):
     def _load(self):
         with open(self.classifier_path, 'rb') as source:
             self.classifier = pickle.load(source)
-            self.words = self.classifier.most_informative_features(NUMBER_OF_WORDS)
+            self.classifier.most_informative_features = monkey_patch_most_informative_features
+            self.words = self.classifier.most_informative_features(self.classifier, NUMBER_OF_WORDS)
 
     def _save(self):
         with open('simple_classifier.pickle', 'wb') as destination:
@@ -75,24 +105,30 @@ class SentimentClassifier(object):
             predictions[observed].add(i)
 
         self.classifier = classifier
-        self.words = self.classifier.most_informative_features(NUMBER_OF_WORDS)
+        self.classifier.most_informative_features = monkey_patch_most_informative_features
+        self.words = self.classifier.most_informative_features(self.classifier, NUMBER_OF_WORDS)
 
     def classify(self, classification_input):
+        text_words = classification_input.get("text", "").split(" ")
+        classification_words = set()
         classification_input_dict = {}
-        for word in classification_input.get("text", "").split(" "):
+
+        for word in text_words:
             classification_input_dict[word] = True
 
         result = self.classifier.classify(classification_input_dict)
 
-        print result
+        for classification_word, classification_value in self.words:
+            if len(classification_word) > 3 and strip_punctuation(classification_word) in text_words:
+                classification_words.add((classification_word, classification_value))
+
+        classification_words = list(classification_words)
+        print classification_words
 
         return {
             "sentiment": result,
             "confidence": 0,  # ToDo: Get classification confidence
-            "classification_words": list(set([
-                word for word in classification_input.get("text", "").split(" ") if word in
-                [f[0] for f in self.words]
-            ]))
+            "classification_words": classification_words
         }
 
 
