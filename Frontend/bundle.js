@@ -37346,12 +37346,91 @@
 	    function App(props) {
 	        _classCallCheck(this, App);
 
-	        return _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this, props));
+	        var _this = _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this, props));
+
+	        _this.state = {
+	            last_image: 2,
+	            images: ["django", "nltk", "react"], // ToDo: Change this to a dict, domething like this:
+	            // {"django": "https://www.djangoproject.com/", "nltk": "http://.."}
+
+	            shown_images: [0, 1, 2] // This is supposed to be [1, 2, 0] after one left click, [2, 0, 1] after another
+	            // and [1, 2, 0] if we click right after
+
+	            // If we had 4 images, we would have [1, 2, 3] after a left click, [2, 3, 0] after
+	            // another left click.
+	        };
+
+	        _this.handle_left_click.bind(_this);
+	        _this.handle_right_click.bind(_this);
+	        _this.get_images(_this);
+	        return _this;
 	    }
 
+	    /*
+	       */
+
+
 	    _createClass(App, [{
+	        key: 'handle_left_click',
+	        value: function handle_left_click() {
+	            var _this2 = this;
+
+	            this.setState({
+	                shown_images: this.state.shown_images.map(function (value) {
+	                    return (value + 1) % _this2.state.images.length;
+	                })
+	            }, function () {
+	                console.log(_this2.state.shown_images);
+	            });
+	        }
+	    }, {
+	        key: 'handle_right_click',
+	        value: function handle_right_click() {
+	            var _this3 = this;
+
+	            this.setState({
+	                shown_images: this.state.shown_images.map(function (value) {
+	                    return (value - 1 < 0 ? value - 1 + _this3.state.images.length : value - 1) % _this3.state.images.length;
+	                })
+	            }, function () {
+	                console.log(_this3.state.shown_images);
+	            });
+	        }
+	    }, {
+	        key: 'get_images',
+	        value: function get_images() {
+	            /*
+	             <div className="block tech-icon-left">
+	                <a href="https://www.djangoproject.com/">
+	                    <img className="tech-icon-small" src="images/django_logo.png"/>
+	                </a>
+	            </div>
+	             <div className="block">
+	                <a href="http://www.nltk.org/">
+	                    <img className={image_class} src="images/nltk_logo.png"/>
+	                </a>
+	            </div>
+	             <div className="block tech-icon-right">
+	                <a href="https://facebook.github.io/react/">
+	                    <img className="tech-icon" src="images/react_logo.png"/>
+	                </a>
+	            </div>
+	             */
+
+	            // // ToDo: Find a way to generalize this to multiple
+	            // // ToDo: That is, even if you have 5, show only 3 this way
+	            // return this.state.images.map((element, index) => {
+	            //         if (index < )
+	            // });
+	        }
+	    }, {
 	        key: 'render',
 	        value: function render() {
+	            var _this4 = this;
+
+	            var image_class = "tech-icon-middle";
+	            var images = this.get_images();
+
 	            return _react2.default.createElement(
 	                'div',
 	                { className: 'jumbotron small-jumbotron' },
@@ -37375,30 +37454,20 @@
 	                    { className: 'block-container' },
 	                    _react2.default.createElement(
 	                        'div',
-	                        { className: 'block' },
-	                        _react2.default.createElement(
-	                            'a',
-	                            { href: 'https://www.djangoproject.com/' },
-	                            _react2.default.createElement('img', { className: 'tech-icon-small', src: 'images/django_logo.png' })
-	                        )
+	                        { className: 'block left' },
+	                        _react2.default.createElement('i', { className: 'fa fa-chevron-left center arrow-hover', 'aria-hidden': 'true',
+	                            onClick: function onClick() {
+	                                _this4.handle_left_click();
+	                            } })
 	                    ),
+	                    images,
 	                    _react2.default.createElement(
 	                        'div',
-	                        { className: 'block' },
-	                        _react2.default.createElement(
-	                            'a',
-	                            { href: 'http://www.nltk.org/' },
-	                            _react2.default.createElement('img', { className: 'tech-icon', src: 'images/nltk_logo.png' })
-	                        )
-	                    ),
-	                    _react2.default.createElement(
-	                        'div',
-	                        { className: 'block' },
-	                        _react2.default.createElement(
-	                            'a',
-	                            { href: 'https://facebook.github.io/react/' },
-	                            _react2.default.createElement('img', { className: 'tech-icon', src: 'images/react_logo.png' })
-	                        )
+	                        { className: 'block right' },
+	                        _react2.default.createElement('i', { className: 'fa fa-chevron-right center arrow-hover', 'aria-hidden': 'true',
+	                            onClick: function onClick() {
+	                                _this4.handle_right_click();
+	                            } })
 	                    )
 	                )
 	            );

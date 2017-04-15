@@ -47,6 +47,24 @@
     width: 40px;
 }
 
+.tech-icon-middle {
+    height: 100px;
+    width: 100px;
+}
+
+.tech-icon-middle-small {
+    height: 90px;
+    width: 90px;
+}
+
+.tech-icon-left {
+    padding-right: 30%;
+}
+
+.tech-icon-right {
+    padding-left: 30%;
+}
+
 .small-jumbotron {
     padding: 1rem !important;
     margin-bottom: 0.5rem !important;
@@ -58,4 +76,22 @@
 
 .prevent-color-change {
     color: black;
+}
+
+.left {
+    float: left;
+}
+
+.right {
+    float: right;
+}
+
+.center {
+    padding-top: 350%;
+}
+
+.arrow-hover {}
+
+.arrow-hover:hover {
+    font-size: large;
 }
