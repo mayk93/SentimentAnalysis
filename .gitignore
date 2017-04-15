@@ -15,6 +15,7 @@ email.txt
 migrations
 static/
 static_serve/
+images/
 
 # ===== End custom ignores ===== #
 

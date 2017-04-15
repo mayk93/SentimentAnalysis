@@ -22684,7 +22684,48 @@
 	            return _react2.default.createElement(
 	                'div',
 	                null,
-	                _react2.default.createElement(_test_classification_app2.default, null)
+	                _react2.default.createElement('br', null),
+	                _react2.default.createElement(
+	                    'div',
+	                    { className: 'jumbotron small-jumbotron' },
+	                    _react2.default.createElement(
+	                        'h1',
+	                        null,
+	                        'Sentiment classifier'
+	                    ),
+	                    _react2.default.createElement('hr', null),
+	                    _react2.default.createElement(
+	                        'div',
+	                        { className: 'block-container' },
+	                        _react2.default.createElement(
+	                            'div',
+	                            { className: 'block' },
+	                            _react2.default.createElement('img', { className: 'tech-icon-90', src: 'images/django_logo.png' })
+	                        ),
+	                        _react2.default.createElement(
+	                            'div',
+	                            { className: 'block' },
+	                            _react2.default.createElement('img', { className: 'tech-icon', src: 'images/nltk_logo.png' })
+	                        ),
+	                        _react2.default.createElement(
+	                            'div',
+	                            { className: 'block' },
+	                            _react2.default.createElement('img', { className: 'tech-icon', src: 'images/react_logo.png' })
+	                        )
+	                    )
+	                ),
+	                _react2.default.createElement(_test_classification_app2.default, null),
+	                _react2.default.createElement('hr', null),
+	                _react2.default.createElement(
+	                    'h3',
+	                    null,
+	                    'Hosted on',
+	                    _react2.default.createElement(
+	                        'span',
+	                        { className: 'span-padding-left' },
+	                        _react2.default.createElement('i', { className: 'fa fa-github', 'aria-hidden': 'true' })
+	                    )
+	                )
 	            );
 	        }
 	    }]);
@@ -22771,6 +22812,12 @@
 	        value: function render() {
 	            var _this3 = this;
 
+	            var sentiment = this.props.test_classification_view_data.sentiment == "pos" ? "This is a positive sentiment!" : "This is a negative sentiment!";
+	            var confidence = this.props.test_classification_view_data.confidence;
+	            var classification_words = this.props.test_classification_view_data.classification_words;
+	            var result_sentiment_span = this.props.test_classification_view_data.sentiment == "pos" ? "label blue-strong" : "label red-strong";
+
+	            // ToDo: Fix the styles
 	            return _react2.default.createElement(
 	                'div',
 	                null,
@@ -22787,13 +22834,17 @@
 	                    'p',
 	                    { className: 'result_sentiment' },
 	                    'Result sentiment: ',
-	                    this.props.test_classification_view_data.sentiment
+	                    _react2.default.createElement(
+	                        'span',
+	                        { className: result_sentiment_span },
+	                        sentiment
+	                    )
 	                ),
 	                _react2.default.createElement(
 	                    'p',
 	                    { className: 'result_confidence' },
 	                    'Result confidence: ',
-	                    this.props.test_classification_view_data.confidence
+	                    confidence
 	                ),
 	                _react2.default.createElement('p', { className: 'confidence_color', style: { "backgroundColor": "red" } }),
 	                _react2.default.createElement('hr', null),
@@ -22805,7 +22856,7 @@
 	                _react2.default.createElement(
 	                    'ul',
 	                    { className: 'list-group' },
-	                    (0, _index2.list_to_li)(this.props.test_classification_view_data.classification_words)
+	                    (0, _index2.list_to_li)(classification_words)
 	                )
 	            );
 	        }

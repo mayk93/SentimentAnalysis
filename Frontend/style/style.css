@@ -21,10 +21,37 @@
     background-color: #5bc0de;
 }
 
-.red-strong  {
+.red-strong {
     background-color: #c20000;
 }
 
-.red-weak  {
+.red-weak {
     background-color: #c8787a;
+}
+
+.block-container {
+    text-align:center;
+}
+
+.block {
+    display:inline-block;
+}
+
+.tech-icon {
+    height: 100px;
+    width: 100px;
+}
+
+.tech-icon-90 {
+    height: 90px;
+    width: 90px;
+}
+
+.small-jumbotron {
+    padding: 1rem !important;
+    margin-bottom: 0.5rem !important;
+}
+
+.span-padding-left {
+    padding-left: 10px;
 }
