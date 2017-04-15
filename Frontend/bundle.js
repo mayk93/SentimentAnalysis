@@ -37390,7 +37390,7 @@
 
 	            this.setState({
 	                shown_images: this.state.shown_images.map(function (value) {
-	                    return (value - 1 < 0 ? value - 1 + _this3.state.images.length : value - 1) % _this3.state.images.length;
+	                    return (value - 1 + _this3.state.images.length) % _this3.state.images.length;
 	                })
 	            }, function () {
 	                console.log(_this3.state.shown_images);
