@@ -8,7 +8,7 @@ from string import punctuation
 import collections
 from nltk.classify import NaiveBayesClassifier
 
-from SentimentClassifierUtils import get_data, remove_stopwords
+from SentimentClassifierUtils import get_data, remove_stopwords, download_data
 
 # ==================================================================================================================== #
 
@@ -52,19 +52,27 @@ def strip_punctuation(s):
 class SentimentClassifier(object):
     def __init__(self):
         self.classifier = None
-        self.classifier_path = "/tmp/simple_sentiment_classifier"
+
+        self.classifier_dir = "/tmp/simple_sentiment_classifier/"
+        self.classifier_name = "simple_classifier.pickle"
+        self.classifier_path = os.path.join(self.classifier_dir, self.classifier_name)
+
         self.data_source = "/tmp/sentiment_data/sentiment_labelled_sentences"
         self.words = None
-
-        if not os.path.exists(self.data_source) and not os.path.exists(self.classifier_path):
-            raise Exception("No data set or classifier found. Please run the download_data script.")
 
     def get_classifier(self):
         # Try to load or train a new classifier
         try:
+            # First, we try to load an existing classifier.
             self._load()
         except IOError:
-            self._train()
+            try:
+                # If we can't load an existing classifier, try to train a new one.
+                self._train()
+            except IOError:
+                # If we fail to train a new one, we probably miss the data set. Download the data set and try again.
+                download_data()
+                self._load()
             self._save()
 
         if self.classifier is None:
@@ -77,7 +85,9 @@ class SentimentClassifier(object):
             self.words = self.classifier.most_informative_features(self.classifier, NUMBER_OF_WORDS)
 
     def _save(self):
-        with open('simple_classifier.pickle', 'wb') as destination:
+        if not os.path.exists(self.classifier_dir):
+            os.mkdir(self.classifier_dir)
+        with open(os.path.join(self.classifier_path), 'wb') as destination:
             pickle.dump(self.classifier, destination)
 
     def _train(self):

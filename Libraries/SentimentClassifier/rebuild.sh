@@ -55,6 +55,9 @@ setup(
 
     keywords='nltk',
     packages=find_packages(exclude=['contrib', 'docs', 'tests']),
+    package_data={
+          'SentimentClassifier': ['*.sh'],
+    },
     install_requires=['nltk']
 )
 """ > setup.py
@@ -69,5 +72,8 @@ ls
 echo "Installing SentimentClassifier-$CURRENT_VERSION-py2-none-any.whl"
 
 pip install SentimentClassifier-$CURRENT_VERSION-py2-none-any.whl
+
+cd ../../../SentimentAnalysis_env/lib/python2.7/site-packages/SentimentClassifier
+chmod 744 download_data.sh
 
 cd $CURRENT_DIRECTORY

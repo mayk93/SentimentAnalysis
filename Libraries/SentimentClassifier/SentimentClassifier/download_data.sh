@@ -8,7 +8,7 @@ mkdir sentiment_data
 
 cd sentiment_data
 
-wget https://archive.ics.uci.edu/ml/machine-learning-databases/00331/sentiment%20labelled%20sentences.zip
+/usr/local/bin/wget https://archive.ics.uci.edu/ml/machine-learning-databases/00331/sentiment%20labelled%20sentences.zip
 
 unzip sentiment\ labelled\ sentences.zip
 

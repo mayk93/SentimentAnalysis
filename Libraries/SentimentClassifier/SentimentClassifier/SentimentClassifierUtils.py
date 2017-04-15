@@ -1,4 +1,5 @@
 import os
+import subprocess
 from nltk.corpus import stopwords
 
 
@@ -17,3 +18,8 @@ def get_data(path, files):
 
 def remove_stopwords(words):
     return dict([(word, True) for word in words if word not in stopwords.words("english")])
+
+
+def download_data():
+    script_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "download_data.sh")
+    subprocess.call([script_path], shell=True)

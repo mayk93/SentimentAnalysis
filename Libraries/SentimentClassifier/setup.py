@@ -14,7 +14,7 @@ with open(path.join(current_path, 'README.md'), encoding='utf-8') as f:
 
 setup(
     name='SentimentClassifier',
-    version='0.0.28',
+    version='0.0.57',
 
     description='A library used in the Sentiment Analysis app',
     long_description=long_description,
@@ -37,6 +37,9 @@ setup(
 
     keywords='nltk',
     packages=find_packages(exclude=['contrib', 'docs', 'tests']),
+    package_data={
+          'SentimentClassifier': ['*.sh'],
+    },
     install_requires=['nltk']
 )
 
