@@ -56,7 +56,7 @@ class TestClassificationApp extends Component {
                 <hr/>
 
                 <p>Result classification words :</p>
-                <ul>
+                <ul className="list-group">
                     {list_to_li(this.props.test_classification_view_data.classification_words)}
                 </ul>
             </div>

@@ -22804,7 +22804,7 @@
 	                ),
 	                _react2.default.createElement(
 	                    'ul',
-	                    null,
+	                    { className: 'list-group' },
 	                    (0, _index2.list_to_li)(this.props.test_classification_view_data.classification_words)
 	                )
 	            );
@@ -37270,16 +37270,28 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+	// Find a way to made more general
 	function list_to_li(word_list) {
 	    if (word_list == null || typeof word_list == "undefined") {
 	        return [];
 	    }
 	    return word_list.map(function (word) {
 	        console.log(word);
+
+	        var class_name = "label ";
+	        class_name += word[0] == "pos" ? "blue" : "red";
+	        class_name += "-" + (word[2] > 0.5 ? "strong" : "weak");
+
+	        console.log("Class name for ", word[1], " is ", class_name);
+
 	        return _react2.default.createElement(
 	            "li",
-	            { key: word },
-	            word
+	            { key: word[1], className: "list-group-item " },
+	            _react2.default.createElement(
+	                "span",
+	                { className: class_name },
+	                word[1]
+	            )
 	        );
 	    });
 	} /**

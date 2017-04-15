@@ -12,3 +12,19 @@
 .result_confidence {
     text-align: center;
 }
+
+.blue-strong {
+    background-color: #2B6EA1;
+}
+
+.blue-weak {
+    background-color: #5bc0de;
+}
+
+.red-strong  {
+    background-color: #c20000;
+}
+
+.red-weak  {
+    background-color: #c8787a;
+}

@@ -1,6 +1,5 @@
 import os
 import pickle
-from string import punctuation
 
 # NLTK #
 # ==================================================================================================================== #
@@ -8,7 +7,8 @@ from string import punctuation
 import collections
 from nltk.classify import NaiveBayesClassifier
 
-from SentimentClassifierUtils import get_data, remove_stopwords, download_data
+from SentimentClassifierUtils import get_data, remove_stopwords, download_data, monkey_patch_most_informative_features, \
+    strip_punctuation
 
 # ==================================================================================================================== #
 
@@ -16,37 +16,9 @@ from SentimentClassifierUtils import get_data, remove_stopwords, download_data
 # Settings
 # ==================================================================================================================== #
 
-NUMBER_OF_WORDS = 500
+NUMBER_OF_WORDS = 750
 
 # ==================================================================================================================== #
-
-
-def monkey_patch_most_informative_features(self, n=100):
-    from collections import defaultdict
-    features = set()
-    maxprob = defaultdict(lambda: 0.0)
-    minprob = defaultdict(lambda: 1.0)
-
-    for (label, fname), probdist in self._feature_probdist.items():
-        for fval in probdist.samples():
-            p = probdist.prob(fval)
-            feature = (fname, p)
-
-            features.add(feature)
-
-            maxprob[feature] = max(p, maxprob[feature])
-            minprob[feature] = min(p, minprob[feature])
-            if minprob[feature] == 0:
-                features.discard(feature)
-
-    features = sorted(features,
-                      key=lambda feature_:
-                      minprob[feature_] / maxprob[feature_])
-    return features[:n]
-
-
-def strip_punctuation(s):
-    return ''.join(c for c in s if c not in punctuation)
 
 
 class SentimentClassifier(object):
@@ -119,7 +91,7 @@ class SentimentClassifier(object):
         self.words = self.classifier.most_informative_features(self.classifier, NUMBER_OF_WORDS)
 
     def classify(self, classification_input):
-        text_words = classification_input.get("text", "").split(" ")
+        text_words = [strip_punctuation(word).lower() for word in classification_input.get("text", "").split(" ")]
         classification_words = set()
         classification_input_dict = {}
 
@@ -128,12 +100,11 @@ class SentimentClassifier(object):
 
         result = self.classifier.classify(classification_input_dict)
 
-        for classification_word, classification_value in self.words:
-            if len(classification_word) > 3 and strip_punctuation(classification_word) in text_words:
-                classification_words.add((classification_word, classification_value))
+        for classification_label, classification_word, classification_value in self.words:
+            if len(classification_word) > 2 and classification_word in text_words:
+                classification_words.add((classification_label, classification_word, classification_value))
 
         classification_words = list(classification_words)
-        print classification_words
 
         return {
             "sentiment": result,
