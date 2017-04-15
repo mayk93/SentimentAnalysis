@@ -63,7 +63,7 @@ class TestClassificationApp extends Component {
 
                 <hr/>
 
-                <p>Result classification words :</p>
+                <p>Result classification words</p>
                 <ul className="list-group">
                     {list_to_li(classification_words)}
                 </ul>

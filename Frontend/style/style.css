@@ -38,13 +38,13 @@
 }
 
 .tech-icon {
-    height: 100px;
-    width: 100px;
+    height: 50px;
+    width: 50px;
 }
 
-.tech-icon-90 {
-    height: 90px;
-    width: 90px;
+.tech-icon-small {
+    height: 40px;
+    width: 40px;
 }
 
 .small-jumbotron {
@@ -54,4 +54,8 @@
 
 .span-padding-left {
     padding-left: 10px;
+}
+
+.prevent-color-change {
+    color: black;
 }

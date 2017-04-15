@@ -12,13 +12,10 @@ export function list_to_li(word_list) {
         return [];
     }
     return word_list.map((word) => {
-        console.log(word);
 
         let class_name = "label ";
         class_name += (word[0] == "pos" ? "blue" : "red");
         class_name += "-" + (word[2] > 0.5 ? "strong" : "weak");
-
-        console.log("Class name for ", word[1], " is ", class_name);
 
         return (
             <li key={word[1]} className="list-group-item ">

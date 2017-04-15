@@ -92,7 +92,8 @@ class SentimentClassifier(object):
 
     def classify(self, classification_input):
         text_words = [strip_punctuation(word).lower() for word in classification_input.get("text", "").split(" ")]
-        classification_words = set()
+        classification_words = []
+        seen_words = set()
         classification_input_dict = {}
 
         for word in text_words:
@@ -102,9 +103,9 @@ class SentimentClassifier(object):
 
         for classification_label, classification_word, classification_value in self.words:
             if len(classification_word) > 2 and classification_word in text_words:
-                classification_words.add((classification_label, classification_word, classification_value))
-
-        classification_words = list(classification_words)
+                if classification_word not in seen_words:
+                    classification_words.append((classification_label, classification_word, classification_value))
+                    seen_words.add(classification_word)
 
         return {
             "sentiment": result,

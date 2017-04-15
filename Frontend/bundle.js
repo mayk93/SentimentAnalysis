@@ -77,7 +77,7 @@
 
 	var _app2 = _interopRequireDefault(_app);
 
-	var _reducers = __webpack_require__(221);
+	var _reducers = __webpack_require__(223);
 
 	var _reducers2 = _interopRequireDefault(_reducers);
 
@@ -22654,9 +22654,17 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _test_classification_app = __webpack_require__(209);
+	var _classification_app = __webpack_require__(209);
 
-	var _test_classification_app2 = _interopRequireDefault(_test_classification_app);
+	var _classification_app2 = _interopRequireDefault(_classification_app);
+
+	var _classification_app_jumbotron = __webpack_require__(221);
+
+	var _classification_app_jumbotron2 = _interopRequireDefault(_classification_app_jumbotron);
+
+	var _classification_app_footer = __webpack_require__(222);
+
+	var _classification_app_footer2 = _interopRequireDefault(_classification_app_footer);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -22665,9 +22673,6 @@
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-	// import TestViewApp from '../containers/test_view_app';
-
 
 	var App = function (_Component) {
 	    _inherits(App, _Component);
@@ -22685,47 +22690,10 @@
 	                'div',
 	                null,
 	                _react2.default.createElement('br', null),
-	                _react2.default.createElement(
-	                    'div',
-	                    { className: 'jumbotron small-jumbotron' },
-	                    _react2.default.createElement(
-	                        'h1',
-	                        null,
-	                        'Sentiment classifier'
-	                    ),
-	                    _react2.default.createElement('hr', null),
-	                    _react2.default.createElement(
-	                        'div',
-	                        { className: 'block-container' },
-	                        _react2.default.createElement(
-	                            'div',
-	                            { className: 'block' },
-	                            _react2.default.createElement('img', { className: 'tech-icon-90', src: 'images/django_logo.png' })
-	                        ),
-	                        _react2.default.createElement(
-	                            'div',
-	                            { className: 'block' },
-	                            _react2.default.createElement('img', { className: 'tech-icon', src: 'images/nltk_logo.png' })
-	                        ),
-	                        _react2.default.createElement(
-	                            'div',
-	                            { className: 'block' },
-	                            _react2.default.createElement('img', { className: 'tech-icon', src: 'images/react_logo.png' })
-	                        )
-	                    )
-	                ),
-	                _react2.default.createElement(_test_classification_app2.default, null),
+	                _react2.default.createElement(_classification_app_jumbotron2.default, null),
+	                _react2.default.createElement(_classification_app2.default, null),
 	                _react2.default.createElement('hr', null),
-	                _react2.default.createElement(
-	                    'h3',
-	                    null,
-	                    'Hosted on',
-	                    _react2.default.createElement(
-	                        'span',
-	                        { className: 'span-padding-left' },
-	                        _react2.default.createElement('i', { className: 'fa fa-github', 'aria-hidden': 'true' })
-	                    )
-	                )
+	                _react2.default.createElement(_classification_app_footer2.default, null)
 	            );
 	        }
 	    }]);
@@ -22851,7 +22819,7 @@
 	                _react2.default.createElement(
 	                    'p',
 	                    null,
-	                    'Result classification words :'
+	                    'Result classification words'
 	                ),
 	                _react2.default.createElement(
 	                    'ul',
@@ -37327,13 +37295,10 @@
 	        return [];
 	    }
 	    return word_list.map(function (word) {
-	        console.log(word);
 
 	        var class_name = "label ";
 	        class_name += word[0] == "pos" ? "blue" : "red";
 	        class_name += "-" + (word[2] > 0.5 ? "strong" : "weak");
-
-	        console.log("Class name for ", word[1], " is ", class_name);
 
 	        return _react2.default.createElement(
 	            "li",
@@ -37359,13 +37324,173 @@
 	    value: true
 	});
 
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(2);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /**
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Created by michael on 15/04/2017.
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
+
+	var App = function (_Component) {
+	    _inherits(App, _Component);
+
+	    function App(props) {
+	        _classCallCheck(this, App);
+
+	        return _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this, props));
+	    }
+
+	    _createClass(App, [{
+	        key: 'render',
+	        value: function render() {
+	            return _react2.default.createElement(
+	                'div',
+	                { className: 'jumbotron small-jumbotron' },
+	                _react2.default.createElement(
+	                    'div',
+	                    { className: 'page-header' },
+	                    _react2.default.createElement(
+	                        'h1',
+	                        null,
+	                        'Sentiment Classifier ',
+	                        _react2.default.createElement(
+	                            'small',
+	                            null,
+	                            'Built using'
+	                        )
+	                    )
+	                ),
+	                _react2.default.createElement('hr', null),
+	                _react2.default.createElement(
+	                    'div',
+	                    { className: 'block-container' },
+	                    _react2.default.createElement(
+	                        'div',
+	                        { className: 'block' },
+	                        _react2.default.createElement(
+	                            'a',
+	                            { href: 'https://www.djangoproject.com/' },
+	                            _react2.default.createElement('img', { className: 'tech-icon-small', src: 'images/django_logo.png' })
+	                        )
+	                    ),
+	                    _react2.default.createElement(
+	                        'div',
+	                        { className: 'block' },
+	                        _react2.default.createElement(
+	                            'a',
+	                            { href: 'http://www.nltk.org/' },
+	                            _react2.default.createElement('img', { className: 'tech-icon', src: 'images/nltk_logo.png' })
+	                        )
+	                    ),
+	                    _react2.default.createElement(
+	                        'div',
+	                        { className: 'block' },
+	                        _react2.default.createElement(
+	                            'a',
+	                            { href: 'https://facebook.github.io/react/' },
+	                            _react2.default.createElement('img', { className: 'tech-icon', src: 'images/react_logo.png' })
+	                        )
+	                    )
+	                )
+	            );
+	        }
+	    }]);
+
+	    return App;
+	}(_react.Component);
+
+	exports.default = App;
+
+/***/ },
+/* 222 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(2);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /**
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Created by michael on 15/04/2017.
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
+
+	var App = function (_Component) {
+	    _inherits(App, _Component);
+
+	    function App(props) {
+	        _classCallCheck(this, App);
+
+	        return _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this, props));
+	    }
+
+	    _createClass(App, [{
+	        key: 'render',
+	        value: function render() {
+	            return _react2.default.createElement(
+	                'div',
+	                { className: 'container navbar navbar-fixed-bottom' },
+	                _react2.default.createElement(
+	                    'footer',
+	                    null,
+	                    'Hosted on',
+	                    _react2.default.createElement(
+	                        'span',
+	                        { className: 'span-padding-left' },
+	                        _react2.default.createElement(
+	                            'a',
+	                            { href: 'https://github.com/mayk93/SentimentAnalysis', className: 'prevent-color-change' },
+	                            _react2.default.createElement('i', { className: 'fa fa-github', 'aria-hidden': 'true' })
+	                        )
+	                    )
+	                )
+	            );
+	        }
+	    }]);
+
+	    return App;
+	}(_react.Component);
+
+	exports.default = App;
+
+/***/ },
+/* 223 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
 	var _redux = __webpack_require__(167);
 
-	var _reducer_test_view = __webpack_require__(222);
+	var _reducer_test_view = __webpack_require__(224);
 
 	var _reducer_test_view2 = _interopRequireDefault(_reducer_test_view);
 
-	var _reducer_test_classification_view = __webpack_require__(223);
+	var _reducer_test_classification_view = __webpack_require__(225);
 
 	var _reducer_test_classification_view2 = _interopRequireDefault(_reducer_test_classification_view);
 
@@ -37379,7 +37504,7 @@
 	exports.default = rootReducer;
 
 /***/ },
-/* 222 */
+/* 224 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -37401,7 +37526,7 @@
 	};
 
 /***/ },
-/* 223 */
+/* 225 */
 /***/ function(module, exports) {
 
 	"use strict";
