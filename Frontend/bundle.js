@@ -37349,15 +37349,21 @@
 	        var _this = _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this, props));
 
 	        _this.state = {
-	            last_image: 2,
-	            images: ["django", "nltk", "react"], // ToDo: Change this to a dict, domething like this:
-	            // {"django": "https://www.djangoproject.com/", "nltk": "http://.."}
+	            // ToDo: Change to dictionary
+	            images: [["django", "https://www.djangoproject.com/", "images/django_logo.png"], ["nltk", "http://www.nltk.org/", "images/nltk_logo.png"], ["react", "https://facebook.github.io/react/", "images/react_logo.png"]],
+	            shown_images: [0, 1, 2]
+	        };
 
-	            shown_images: [0, 1, 2] // This is supposed to be [1, 2, 0] after one left click, [2, 0, 1] after another
-	            // and [1, 2, 0] if we click right after
+	        _this.image_number_to_position = {
+	            0: " tech-icon-left",
+	            1: "",
+	            2: " tech-icon-right"
+	        };
 
-	            // If we had 4 images, we would have [1, 2, 3] after a left click, [2, 3, 0] after
-	            // another left click.
+	        _this.image_to_class = {
+	            0: "tech-icon-small",
+	            1: "tech-icon",
+	            2: "tech-icon"
 	        };
 
 	        _this.handle_left_click.bind(_this);
@@ -37365,10 +37371,6 @@
 	        _this.get_images(_this);
 	        return _this;
 	    }
-
-	    /*
-	       */
-
 
 	    _createClass(App, [{
 	        key: 'handle_left_click',
@@ -37399,36 +37401,34 @@
 	    }, {
 	        key: 'get_images',
 	        value: function get_images() {
-	            /*
-	             <div className="block tech-icon-left">
-	                <a href="https://www.djangoproject.com/">
-	                    <img className="tech-icon-small" src="images/django_logo.png"/>
-	                </a>
-	            </div>
-	             <div className="block">
-	                <a href="http://www.nltk.org/">
-	                    <img className={image_class} src="images/nltk_logo.png"/>
-	                </a>
-	            </div>
-	             <div className="block tech-icon-right">
-	                <a href="https://facebook.github.io/react/">
-	                    <img className="tech-icon" src="images/react_logo.png"/>
-	                </a>
-	            </div>
-	             */
+	            var _this4 = this;
 
-	            // // ToDo: Find a way to generalize this to multiple
-	            // // ToDo: That is, even if you have 5, show only 3 this way
-	            // return this.state.images.map((element, index) => {
-	            //         if (index < )
-	            // });
+	            var image_position = void 0;
+	            var image_href = void 0;
+	            var image_class = void 0;
+	            var image_source = void 0;
+
+	            return this.state.shown_images.map(function (image_number, index) {
+	                image_position = _this4.image_number_to_position[index];
+	                image_href = _this4.state.images[image_number][1];
+	                image_class = index == 1 ? "tech-icon-middle" : _this4.image_to_class[image_number];
+	                image_source = _this4.state.images[image_number][2];
+	                return _react2.default.createElement(
+	                    'div',
+	                    { key: image_number.toString() + "_" + index.toString(), className: "block" + image_position },
+	                    _react2.default.createElement(
+	                        'a',
+	                        { href: image_href },
+	                        _react2.default.createElement('img', { className: image_class, src: image_source })
+	                    )
+	                );
+	            });
 	        }
 	    }, {
 	        key: 'render',
 	        value: function render() {
-	            var _this4 = this;
+	            var _this5 = this;
 
-	            var image_class = "tech-icon-middle";
 	            var images = this.get_images();
 
 	            return _react2.default.createElement(
@@ -37457,7 +37457,7 @@
 	                        { className: 'block left' },
 	                        _react2.default.createElement('i', { className: 'fa fa-chevron-left center arrow-hover', 'aria-hidden': 'true',
 	                            onClick: function onClick() {
-	                                _this4.handle_left_click();
+	                                _this5.handle_left_click();
 	                            } })
 	                    ),
 	                    images,
@@ -37466,7 +37466,7 @@
 	                        { className: 'block right' },
 	                        _react2.default.createElement('i', { className: 'fa fa-chevron-right center arrow-hover', 'aria-hidden': 'true',
 	                            onClick: function onClick() {
-	                                _this4.handle_right_click();
+	                                _this5.handle_right_click();
 	                            } })
 	                    )
 	                )
