@@ -95,3 +95,9 @@
 .arrow-hover:hover {
     font-size: large;
 }
+
+.link_class {}
+
+.link_class:hover {
+    cursor: hand;
+}

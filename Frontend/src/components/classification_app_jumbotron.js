@@ -13,6 +13,7 @@ export default class App extends Component {
 
         this.state = {
             images: [
+                ["python", "https://www.python.org/", "images/python_logo.png"],
                 ["django", "https://www.djangoproject.com/", "images/django_logo.png"],
                 ["nltk", "http://www.nltk.org/", "images/nltk_logo.png"],
                 ["react", "https://facebook.github.io/react/", "images/react_logo.png"]
@@ -27,9 +28,10 @@ export default class App extends Component {
         };
 
         this.image_to_class = {
-            0: "tech-icon-small",
-            1: "tech-icon",
-            2: "tech-icon"
+            0: "tech-icon",
+            1: "tech-icon-small",
+            2: "tech-icon",
+            3: "tech-icon"
         };
 
         this.handle_left_click.bind(this);
@@ -64,7 +66,9 @@ export default class App extends Component {
             image_class = index == 1 ? "tech-icon-middle" : this.image_to_class[image_number];
             image_source = this.state.images[image_number][2];
             return (
-                <div key={image_number.toString() + "_" + index.toString()} className={"block" + image_position}>
+                <div key={image_number.toString() + "_" + index.toString()} className={
+                    "block link_class " + image_position
+                }>
                     <a href={image_href}>
                         <img className={image_class} src={image_source}/>
                     </a>
@@ -79,7 +83,8 @@ export default class App extends Component {
         return (
             <div className="jumbotron small-jumbotron">
                 <div className="page-header">
-                  <h1>Sentiment Classifier <small>Built using</small></h1>
+                  <h1>Sentiment Classifier</h1>
+                  <small>Built using</small>
                 </div>
                 <hr/>
                 <div className="block-container">

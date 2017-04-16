@@ -37349,8 +37349,7 @@
 	        var _this = _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this, props));
 
 	        _this.state = {
-	            // ToDo: Change to dictionary
-	            images: [["django", "https://www.djangoproject.com/", "images/django_logo.png"], ["nltk", "http://www.nltk.org/", "images/nltk_logo.png"], ["react", "https://facebook.github.io/react/", "images/react_logo.png"]],
+	            images: [["python", "https://www.python.org/", "images/python_logo.png"], ["django", "https://www.djangoproject.com/", "images/django_logo.png"], ["nltk", "http://www.nltk.org/", "images/nltk_logo.png"], ["react", "https://facebook.github.io/react/", "images/react_logo.png"]],
 	            shown_images: [0, 1, 2]
 	        };
 
@@ -37361,9 +37360,10 @@
 	        };
 
 	        _this.image_to_class = {
-	            0: "tech-icon-small",
-	            1: "tech-icon",
-	            2: "tech-icon"
+	            0: "tech-icon",
+	            1: "tech-icon-small",
+	            2: "tech-icon",
+	            3: "tech-icon"
 	        };
 
 	        _this.handle_left_click.bind(_this);
@@ -37415,7 +37415,7 @@
 	                image_source = _this4.state.images[image_number][2];
 	                return _react2.default.createElement(
 	                    'div',
-	                    { key: image_number.toString() + "_" + index.toString(), className: "block" + image_position },
+	                    { key: image_number.toString() + "_" + index.toString(), className: "block link_class " + image_position },
 	                    _react2.default.createElement(
 	                        'a',
 	                        { href: image_href },
@@ -37440,12 +37440,12 @@
 	                    _react2.default.createElement(
 	                        'h1',
 	                        null,
-	                        'Sentiment Classifier ',
-	                        _react2.default.createElement(
-	                            'small',
-	                            null,
-	                            'Built using'
-	                        )
+	                        'Sentiment Classifier'
+	                    ),
+	                    _react2.default.createElement(
+	                        'small',
+	                        null,
+	                        'Built using'
 	                    )
 	                ),
 	                _react2.default.createElement('hr', null),
