@@ -37348,18 +37348,22 @@
 
 	        var _this = _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this, props));
 
-	        _this.state = {
-	            images: [["python", "https://www.python.org/", "images/python_logo.png"], ["django", "https://www.djangoproject.com/", "images/django_logo.png"], ["nltk", "http://www.nltk.org/", "images/nltk_logo.png"], ["react", "https://facebook.github.io/react/", "images/react_logo.png"]],
+	        _this.image_number_to_position_normal = {
+	            0: "block link-class tech-icon-left",
+	            1: "block link-class",
+	            2: "block link-class tech-icon-right"
+	        };
 
-	            image_number_to_position: {
-	                0: "block link-class tech-icon-left",
-	                1: "block link-class",
-	                2: "block link-class tech-icon-right"
-	            },
+	        _this.image_number_to_position_animate_left = {
+	            0: "hidden",
+	            1: "block link-class",
+	            2: "block link-class tech-icon-right"
+	        };
 
-	            shown_images: [0, 1, 2],
-	            offset: 0,
-	            timer_id: null
+	        _this.image_number_to_position_animate_right = {
+	            0: "block link-class tech-icon-left",
+	            1: "block link-class",
+	            2: "hidden"
 	        };
 
 	        _this.image_to_class = {
@@ -37367,6 +37371,16 @@
 	            1: "tech-icon-small",
 	            2: "tech-icon",
 	            3: "tech-icon"
+	        };
+
+	        _this.state = {
+	            images: [["python", "https://www.python.org/", "images/python_logo.png"], ["django", "https://www.djangoproject.com/", "images/django_logo.png"], ["nltk", "http://www.nltk.org/", "images/nltk_logo.png"], ["react", "https://facebook.github.io/react/", "images/react_logo.png"]],
+
+	            image_number_to_position: _this.image_number_to_position_normal,
+
+	            shown_images: [0, 1, 2],
+	            offset: 0,
+	            timer_id: null
 	        };
 
 	        _this.animate_left.bind(_this);
@@ -37380,99 +37394,75 @@
 	    _createClass(App, [{
 	        key: 'animate_left',
 	        value: function animate_left() {
-	            console.log("[L] Offset: ", this.state.offset);
-	            if (this.state.offset == -200) {
+	            var _this2 = this;
+
+	            if (this.state.offset == -150) {
 	                clearInterval(this.state.timer_id);
 	                this.setState({
-	                    image_number_to_position: {
-	                        0: "block link-class tech-icon-left",
-	                        1: "block link-class",
-	                        2: "block link-class tech-icon-right"
-	                    },
+	                    image_number_to_position: this.image_number_to_position_normal,
+	                    shown_images: this.state.shown_images.map(function (value) {
+	                        return (value + 1) % _this2.state.images.length;
+	                    }),
 	                    offset: 0
 	                });
 	            } else {
 	                this.setState({
-	                    offset: this.state.offset - 10
+	                    offset: this.state.offset - 5
 	                });
 	            }
 	        }
 	    }, {
 	        key: 'animate_right',
 	        value: function animate_right() {
-	            console.log("[R] Offset: ", this.state.offset);
-	            if (this.state.offset == 200) {
+	            var _this3 = this;
+
+	            if (this.state.offset == 150) {
 	                clearInterval(this.state.timer_id);
 	                this.setState({
-	                    image_number_to_position: {
-	                        0: "block link-class tech-icon-left",
-	                        1: "block link-class",
-	                        2: "block link-class tech-icon-right"
-	                    },
+	                    image_number_to_position: this.image_number_to_position_normal,
+	                    shown_images: this.state.shown_images.map(function (value) {
+	                        return (value - 1 + _this3.state.images.length) % _this3.state.images.length;
+	                    }),
 	                    offset: 0
 	                });
 	            } else {
 	                this.setState({
-	                    offset: this.state.offset + 10
+	                    offset: this.state.offset + 5
 	                });
 	            }
 	        }
 	    }, {
 	        key: 'handle_left_click',
 	        value: function handle_left_click() {
-	            var _this2 = this;
+	            var _this4 = this;
 
 	            // ToDo: This is code duplication - Fix this
 	            this.setState({
-	                image_number_to_position: {
-	                    0: "hidden",
-	                    1: "block link-class",
-	                    2: "block link-class tech-icon-right"
-	                }
+	                image_number_to_position: this.image_number_to_position_animate_left
 	            }, function () {
-	                _this2.setState({
-	                    timer_id: setInterval(_this2.animate_left.bind(_this2), 1000)
+	                _this4.setState({
+	                    timer_id: setInterval(_this4.animate_left.bind(_this4), 10)
 	                });
-	            });
-
-	            this.setState({
-	                shown_images: this.state.shown_images.map(function (value) {
-	                    return (value + 1) % _this2.state.images.length;
-	                })
-	            }, function () {
-	                console.log(_this2.state.shown_images);
 	            });
 	        }
 	    }, {
 	        key: 'handle_right_click',
 	        value: function handle_right_click() {
-	            var _this3 = this;
+	            var _this5 = this;
 
 	            // ToDo: This is code duplication - Fix this
 	            this.setState({
-	                image_number_to_position: {
-	                    0: "block link-class tech-icon-left",
-	                    1: "block link-class",
-	                    2: "hidden"
-	                }
+	                image_number_to_position: this.image_number_to_position_animate_right
 	            }, function () {
-	                _this3.setState({
-	                    timer_id: setInterval(_this3.animate_right.bind(_this3), 1000)
+	                _this5.setState({
+	                    timer_id: setInterval(_this5.animate_right.bind(_this5), 10)
 	                });
-	            });
-
-	            this.setState({
-	                shown_images: this.state.shown_images.map(function (value) {
-	                    return (value - 1 + _this3.state.images.length) % _this3.state.images.length;
-	                })
-	            }, function () {
-	                console.log(_this3.state.shown_images);
 	            });
 	        }
 	    }, {
 	        key: 'get_images',
 	        value: function get_images() {
-	            var _this4 = this;
+	            var _this6 = this;
 
 	            var image_position = void 0;
 	            var image_href = void 0;
@@ -37480,15 +37470,15 @@
 	            var image_source = void 0;
 
 	            return this.state.shown_images.map(function (image_number, index) {
-	                image_position = _this4.state.image_number_to_position[index];
-	                image_href = _this4.state.images[image_number][1];
-	                image_class = index == 1 ? "tech-icon-middle" : _this4.image_to_class[image_number];
-	                image_source = _this4.state.images[image_number][2];
+	                image_position = _this6.state.image_number_to_position[index];
+	                image_href = _this6.state.images[image_number][1];
+	                image_class = index == 1 ? "tech-icon-middle" : _this6.image_to_class[image_number];
+	                image_source = _this6.state.images[image_number][2];
 	                return _react2.default.createElement(
 	                    'div',
 	                    { key: image_number.toString() + "_" + index.toString(),
 	                        className: image_position,
-	                        style: { "transform": "translate3d(" + _this4.state.offset + "px, 0px, 0px)" }
+	                        style: { "transform": "translate3d(" + _this6.state.offset + "px, 0px, 0px)" }
 	                    },
 	                    _react2.default.createElement(
 	                        'a',
@@ -37501,7 +37491,7 @@
 	    }, {
 	        key: 'render',
 	        value: function render() {
-	            var _this5 = this;
+	            var _this7 = this;
 
 	            var images = this.get_images();
 
@@ -37531,7 +37521,7 @@
 	                        { className: 'block left' },
 	                        _react2.default.createElement('i', { className: 'fa fa-chevron-left center arrow-hover', 'aria-hidden': 'true',
 	                            onClick: function onClick() {
-	                                _this5.handle_left_click();
+	                                _this7.handle_left_click();
 	                            } })
 	                    ),
 	                    images,
@@ -37540,7 +37530,7 @@
 	                        { className: 'block right' },
 	                        _react2.default.createElement('i', { className: 'fa fa-chevron-right center arrow-hover', 'aria-hidden': 'true',
 	                            onClick: function onClick() {
-	                                _this5.handle_right_click();
+	                                _this7.handle_right_click();
 	                            } })
 	                    )
 	                )

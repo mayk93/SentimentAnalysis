@@ -11,6 +11,31 @@ export default class App extends Component {
     constructor(props) {
         super(props);
 
+        this.image_number_to_position_normal = {
+            0: "block link-class tech-icon-left",
+            1: "block link-class",
+            2: "block link-class tech-icon-right"
+        };
+
+        this.image_number_to_position_animate_left = {
+            0: "hidden",
+            1: "block link-class",
+            2: "block link-class tech-icon-right"
+        };
+
+        this.image_number_to_position_animate_right = {
+            0: "block link-class tech-icon-left",
+            1: "block link-class",
+            2: "hidden"
+        };
+
+        this.image_to_class = {
+            0: "tech-icon",
+            1: "tech-icon-small",
+            2: "tech-icon",
+            3: "tech-icon"
+        };
+
         this.state = {
             images: [
                 ["python", "https://www.python.org/", "images/python_logo.png"],
@@ -19,22 +44,11 @@ export default class App extends Component {
                 ["react", "https://facebook.github.io/react/", "images/react_logo.png"]
             ],
 
-            image_number_to_position: {
-                0: "block link-class tech-icon-left",
-                1: "block link-class",
-                2: "block link-class tech-icon-right"
-            },
+            image_number_to_position: this.image_number_to_position_normal,
 
             shown_images: [0, 1, 2],
             offset: 0,
             timer_id: null
-        };
-
-        this.image_to_class = {
-            0: "tech-icon",
-            1: "tech-icon-small",
-            2: "tech-icon",
-            3: "tech-icon"
         };
 
         this.animate_left.bind(this);
@@ -45,39 +59,35 @@ export default class App extends Component {
     }
 
     animate_left() {
-        console.log("[L] Offset: ", this.state.offset);
-        if (this.state.offset == -200) {
+        if (this.state.offset == -150) {
             clearInterval(this.state.timer_id);
             this.setState({
-                image_number_to_position: {
-                    0: "block link-class tech-icon-left",
-                    1: "block link-class",
-                    2: "block link-class tech-icon-right"
-                },
+                image_number_to_position: this.image_number_to_position_normal,
+                shown_images: this.state.shown_images.map((value) => {
+                    return (value + 1) % this.state.images.length;
+                }),
                 offset: 0
             });
         } else {
             this.setState({
-               offset: this.state.offset - 10
+               offset: this.state.offset - 5
             });
         }
     }
 
     animate_right() {
-        console.log("[R] Offset: ", this.state.offset);
-        if (this.state.offset == 200) {
+        if (this.state.offset == 150) {
             clearInterval(this.state.timer_id);
             this.setState({
-                image_number_to_position: {
-                    0: "block link-class tech-icon-left",
-                    1: "block link-class",
-                    2: "block link-class tech-icon-right"
-                },
+                image_number_to_position: this.image_number_to_position_normal,
+                shown_images: this.state.shown_images.map((value) => {
+                    return (value - 1 + this.state.images.length) % this.state.images.length;
+                }),
                 offset: 0
             });
         } else {
             this.setState({
-               offset: this.state.offset + 10
+               offset: this.state.offset + 5
             });
         }
     }
@@ -85,43 +95,23 @@ export default class App extends Component {
     handle_left_click () {
         // ToDo: This is code duplication - Fix this
         this.setState({
-            image_number_to_position: {
-                0: "hidden",
-                1: "block link-class",
-                2: "block link-class tech-icon-right"
-            }
+            image_number_to_position: this.image_number_to_position_animate_left
         }, () => {
             this.setState({
-                timer_id: setInterval(this.animate_left.bind(this), 1000)
+                timer_id: setInterval(this.animate_left.bind(this), 10)
             });
         });
-
-        this.setState({
-            shown_images: this.state.shown_images.map((value) => {
-                return (value + 1) % this.state.images.length;
-            })
-        }, () => {console.log(this.state.shown_images)})
     }
 
     handle_right_click () {
         // ToDo: This is code duplication - Fix this
         this.setState({
-            image_number_to_position: {
-                0: "block link-class tech-icon-left",
-                1: "block link-class",
-                2: "hidden"
-            }
+            image_number_to_position: this.image_number_to_position_animate_right
         }, () => {
             this.setState({
-                timer_id: setInterval(this.animate_right.bind(this), 1000)
+                timer_id: setInterval(this.animate_right.bind(this), 10)
             });
         });
-
-        this.setState({
-            shown_images: this.state.shown_images.map((value) => {
-                return (value - 1 + this.state.images.length) % this.state.images.length;
-            })
-        }, () => {console.log(this.state.shown_images)})
     }
 
     get_images() {
