@@ -18,13 +18,16 @@ export default class App extends Component {
                 ["nltk", "http://www.nltk.org/", "images/nltk_logo.png"],
                 ["react", "https://facebook.github.io/react/", "images/react_logo.png"]
             ],
-            shown_images: [0, 1, 2]
-        };
 
-        this.image_number_to_position = {
-            0: " tech-icon-left",
-            1: "",
-            2: " tech-icon-right"
+            image_number_to_position: {
+                0: "block link-class tech-icon-left",
+                1: "block link-class",
+                2: "block link-class tech-icon-right"
+            },
+
+            shown_images: [0, 1, 2],
+            offset: 0,
+            timer_id: null
         };
 
         this.image_to_class = {
@@ -34,11 +37,65 @@ export default class App extends Component {
             3: "tech-icon"
         };
 
+        this.animate_left.bind(this);
+        this.animate_right.bind(this);
         this.handle_left_click.bind(this);
         this.handle_right_click.bind(this);
         this.get_images(this);
     }
+
+    animate_left() {
+        console.log("[L] Offset: ", this.state.offset);
+        if (this.state.offset == -200) {
+            clearInterval(this.state.timer_id);
+            this.setState({
+                image_number_to_position: {
+                    0: "block link-class tech-icon-left",
+                    1: "block link-class",
+                    2: "block link-class tech-icon-right"
+                },
+                offset: 0
+            });
+        } else {
+            this.setState({
+               offset: this.state.offset - 10
+            });
+        }
+    }
+
+    animate_right() {
+        console.log("[R] Offset: ", this.state.offset);
+        if (this.state.offset == 200) {
+            clearInterval(this.state.timer_id);
+            this.setState({
+                image_number_to_position: {
+                    0: "block link-class tech-icon-left",
+                    1: "block link-class",
+                    2: "block link-class tech-icon-right"
+                },
+                offset: 0
+            });
+        } else {
+            this.setState({
+               offset: this.state.offset + 10
+            });
+        }
+    }
+
     handle_left_click () {
+        // ToDo: This is code duplication - Fix this
+        this.setState({
+            image_number_to_position: {
+                0: "hidden",
+                1: "block link-class",
+                2: "block link-class tech-icon-right"
+            }
+        }, () => {
+            this.setState({
+                timer_id: setInterval(this.animate_left.bind(this), 1000)
+            });
+        });
+
         this.setState({
             shown_images: this.state.shown_images.map((value) => {
                 return (value + 1) % this.state.images.length;
@@ -47,6 +104,19 @@ export default class App extends Component {
     }
 
     handle_right_click () {
+        // ToDo: This is code duplication - Fix this
+        this.setState({
+            image_number_to_position: {
+                0: "block link-class tech-icon-left",
+                1: "block link-class",
+                2: "hidden"
+            }
+        }, () => {
+            this.setState({
+                timer_id: setInterval(this.animate_right.bind(this), 1000)
+            });
+        });
+
         this.setState({
             shown_images: this.state.shown_images.map((value) => {
                 return (value - 1 + this.state.images.length) % this.state.images.length;
@@ -61,14 +131,15 @@ export default class App extends Component {
         let image_source;
 
         return this.state.shown_images.map((image_number, index) => {
-            image_position = this.image_number_to_position[index];
+            image_position = this.state.image_number_to_position[index];
             image_href = this.state.images[image_number][1];
             image_class = index == 1 ? "tech-icon-middle" : this.image_to_class[image_number];
             image_source = this.state.images[image_number][2];
             return (
-                <div key={image_number.toString() + "_" + index.toString()} className={
-                    "block link_class " + image_position
-                }>
+                <div key={image_number.toString() + "_" + index.toString()}
+                     className={image_position}
+                     style={{"transform": "translate3d(" + this.state.offset + "px, 0px, 0px)"}}
+                >
                     <a href={image_href}>
                         <img className={image_class} src={image_source}/>
                     </a>

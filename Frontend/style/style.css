@@ -30,11 +30,11 @@
 }
 
 .block-container {
-    text-align:center;
+    text-align: center;
 }
 
 .block {
-    display:inline-block;
+    display: inline-block;
 }
 
 .tech-icon {
@@ -96,8 +96,13 @@
     font-size: large;
 }
 
-.link_class {}
+.link-class {}
 
-.link_class:hover {
+.link-class:hover {
     cursor: hand;
+}
+
+.hidden {
+    visibility: hidden;
+    display: inline-block;
 }

@@ -37350,13 +37350,16 @@
 
 	        _this.state = {
 	            images: [["python", "https://www.python.org/", "images/python_logo.png"], ["django", "https://www.djangoproject.com/", "images/django_logo.png"], ["nltk", "http://www.nltk.org/", "images/nltk_logo.png"], ["react", "https://facebook.github.io/react/", "images/react_logo.png"]],
-	            shown_images: [0, 1, 2]
-	        };
 
-	        _this.image_number_to_position = {
-	            0: " tech-icon-left",
-	            1: "",
-	            2: " tech-icon-right"
+	            image_number_to_position: {
+	                0: "block link-class tech-icon-left",
+	                1: "block link-class",
+	                2: "block link-class tech-icon-right"
+	            },
+
+	            shown_images: [0, 1, 2],
+	            offset: 0,
+	            timer_id: null
 	        };
 
 	        _this.image_to_class = {
@@ -37366,6 +37369,8 @@
 	            3: "tech-icon"
 	        };
 
+	        _this.animate_left.bind(_this);
+	        _this.animate_right.bind(_this);
 	        _this.handle_left_click.bind(_this);
 	        _this.handle_right_click.bind(_this);
 	        _this.get_images(_this);
@@ -37373,9 +37378,62 @@
 	    }
 
 	    _createClass(App, [{
+	        key: 'animate_left',
+	        value: function animate_left() {
+	            console.log("[L] Offset: ", this.state.offset);
+	            if (this.state.offset == -200) {
+	                clearInterval(this.state.timer_id);
+	                this.setState({
+	                    image_number_to_position: {
+	                        0: "block link-class tech-icon-left",
+	                        1: "block link-class",
+	                        2: "block link-class tech-icon-right"
+	                    },
+	                    offset: 0
+	                });
+	            } else {
+	                this.setState({
+	                    offset: this.state.offset - 10
+	                });
+	            }
+	        }
+	    }, {
+	        key: 'animate_right',
+	        value: function animate_right() {
+	            console.log("[R] Offset: ", this.state.offset);
+	            if (this.state.offset == 200) {
+	                clearInterval(this.state.timer_id);
+	                this.setState({
+	                    image_number_to_position: {
+	                        0: "block link-class tech-icon-left",
+	                        1: "block link-class",
+	                        2: "block link-class tech-icon-right"
+	                    },
+	                    offset: 0
+	                });
+	            } else {
+	                this.setState({
+	                    offset: this.state.offset + 10
+	                });
+	            }
+	        }
+	    }, {
 	        key: 'handle_left_click',
 	        value: function handle_left_click() {
 	            var _this2 = this;
+
+	            // ToDo: This is code duplication - Fix this
+	            this.setState({
+	                image_number_to_position: {
+	                    0: "hidden",
+	                    1: "block link-class",
+	                    2: "block link-class tech-icon-right"
+	                }
+	            }, function () {
+	                _this2.setState({
+	                    timer_id: setInterval(_this2.animate_left.bind(_this2), 1000)
+	                });
+	            });
 
 	            this.setState({
 	                shown_images: this.state.shown_images.map(function (value) {
@@ -37389,6 +37447,19 @@
 	        key: 'handle_right_click',
 	        value: function handle_right_click() {
 	            var _this3 = this;
+
+	            // ToDo: This is code duplication - Fix this
+	            this.setState({
+	                image_number_to_position: {
+	                    0: "block link-class tech-icon-left",
+	                    1: "block link-class",
+	                    2: "hidden"
+	                }
+	            }, function () {
+	                _this3.setState({
+	                    timer_id: setInterval(_this3.animate_right.bind(_this3), 1000)
+	                });
+	            });
 
 	            this.setState({
 	                shown_images: this.state.shown_images.map(function (value) {
@@ -37409,13 +37480,16 @@
 	            var image_source = void 0;
 
 	            return this.state.shown_images.map(function (image_number, index) {
-	                image_position = _this4.image_number_to_position[index];
+	                image_position = _this4.state.image_number_to_position[index];
 	                image_href = _this4.state.images[image_number][1];
 	                image_class = index == 1 ? "tech-icon-middle" : _this4.image_to_class[image_number];
 	                image_source = _this4.state.images[image_number][2];
 	                return _react2.default.createElement(
 	                    'div',
-	                    { key: image_number.toString() + "_" + index.toString(), className: "block link_class " + image_position },
+	                    { key: image_number.toString() + "_" + index.toString(),
+	                        className: image_position,
+	                        style: { "transform": "translate3d(" + _this4.state.offset + "px, 0px, 0px)" }
+	                    },
 	                    _react2.default.createElement(
 	                        'a',
 	                        { href: image_href },
